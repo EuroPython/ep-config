@@ -1,0 +1,18 @@
+---
+
+- name: Install docker
+  shell: curl -sSL https://get.docker.com | sh
+
+- name: Install docker-compose
+  command: pip install docker-compose
+
+- name: Add docker group
+  group:
+    name: docker
+    state: present
+
+- name: Add user to docker group
+  user:
+    name: "{{ user }}"
+    groups: docker
+    append: yes

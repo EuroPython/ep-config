@@ -1,0 +1,27 @@
+---
+# Common tasks
+
+# Prepare directories
+- name: prepare | Create directories
+  file:
+    path: '{{ item }}'
+    state: directory
+  with_items:
+    - '{{ tmp_install_dir }}'
+    - '{{ bin_dir }}'
+    - '{{ install_dir }}'
+
+- name: Update apt repositories cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  become: yes
+  become_method: sudo
+  tags: always
+
+- name: Install some shell tools
+  apt:
+    name: '{{ item }}'
+  with_items:
+    - 'vim'
+    - 'ranger'

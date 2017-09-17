@@ -1,0 +1,25 @@
+---
+
+- name: Install some apt packages
+  apt:
+    name: '{{ item }}'
+  whit_items:
+    - libyaml-dev
+    - python-dev
+
+- name: Download get-pip.py
+  get_url:
+    url: https://bootstrap.pypa.io/get-pip.py
+    dest: "{{ tmp_install_dir }}/get-pip.py"
+    mode: 0550
+
+- name: Install pip
+  command: python {{ tmp_install_dir }}/get-pip.py
+
+- name: Delete get-pip.py
+  file:
+    path: "{{ tmp_install_dir }}/get-pip.py"
+    state: absent
+
+- name: Update pip and setuptools
+  command: pip install -U pip setuptools
