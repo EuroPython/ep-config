@@ -19,8 +19,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :epcontest, :autostart => true do |node|
-    node.vm.box = 'ubuntu/xenial64'
-    node.vm.hostname = "epcontest"
+    node.vm.box = 'debian/stretch64'
+    node.vm.hostname = 'epcontest'
     node.vm.network :private_network, ip: "10.0.11.11", hostsupdater: "skip"
     node.vm.synced_folder ".", "/vagrant", type: "virtualbox"
     node.vm.provider "virtualbox" do |vb|

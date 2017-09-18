@@ -1,4 +1,4 @@
-epcontest ansible_ssh_host=epcontest ansible_ssh_user=ubuntu
+epcontest ansible_ssh_host=epcontest ansible_ssh_user=vagrant
 
 [chatbot]
 epcontest
