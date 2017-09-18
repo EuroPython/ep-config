@@ -1,0 +1,7 @@
+--
+user: root
+
+tmp_install_dir:
+bin_dir:
+install_dir:
+dockers_dir: "{{ install_dir }}/dockers"

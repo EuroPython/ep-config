@@ -1,0 +1,17 @@
+---
+
+- hosts: europython
+  any_errors_fatal: true
+  roles:
+    - { role: common, become: yes, become_method: sudo } }
+    - { role: python, become: yes, become_method: sudo }
+    - { role: docker-compose, become: yes, become_method: sudo}
+    #- { role: chatbot, tags: chatbot }
+
+- hosts: epcontest
+  any_errors_fatal: true
+  roles:
+    - { role: common, become: yes, become_method: sudo } }
+    - { role: python, become: yes, become_method: sudo }
+    - { role: docker-compose, become: yes, become_method: sudo}
+    #- { role: chatbot, tags: chatbot }
