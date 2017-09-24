@@ -22,4 +22,9 @@
     state: absent
 
 - name: Update pip and setuptools
-  command: pip install -U pip setuptools
+  pip:
+    name: '{{ item }}'
+    state: forcereinstall
+  with_items:
+    - pip
+    - setuptools

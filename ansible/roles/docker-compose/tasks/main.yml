@@ -3,14 +3,13 @@
 - name: Install docker
   shell: curl -sSL https://get.docker.com | sh
 
-- name: Install docker-compose
-  command: >
-    pip install {{ item }}
+- name: Install docker-compose and docker-py
+  pip:
+    name: '{{ item }}'
+    state: forcereinstall
   with_items:
     - docker-py
     - docker-compose
-  become: yes
-  become_method: sudo
 
 - name: Add docker group
   group:

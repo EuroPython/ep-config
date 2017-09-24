@@ -1,6 +1,7 @@
 ---
 
 user: "{{ ansible_ssh_user }}"
+group: "root"
 
 home_dir: '/home/{{ user }}'
 tmp_install_dir: '{{ home_dir }}/tmp'
