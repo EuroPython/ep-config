@@ -1,0 +1,9 @@
+---
+
+user: "{{ ansible_ssh_user }}"
+
+home_dir: '/home/{{ user }}'
+tmp_install_dir: '{{ home_dir }}/tmp'
+bin_dir: '{{ home_dir }}/bin'
+install_dir: '{{ home_dir }}/apps'
+dockers_dir: '{{ home_dir }}/apps/dockers'

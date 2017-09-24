@@ -3,7 +3,7 @@
 - name: Install some apt packages
   apt:
     name: '{{ item }}'
-  whit_items:
+  with_items:
     - libyaml-dev
     - python-dev
 

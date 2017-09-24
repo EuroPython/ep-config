@@ -4,7 +4,7 @@ Host europython
     User alex
     IdentityFile ~/.ssh/id_rsa
 
-Host epcontest
+Host test
     Hostname 10.0.11.11
     User vagrant
     IdentityFile ~/.ssh/id_rsa

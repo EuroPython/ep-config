@@ -18,9 +18,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     node.vm.provision :shell, path: "vagrant/manager.sh", privileged: false
   end
 
-  config.vm.define :epcontest, :autostart => true do |node|
+  config.vm.define :test, :autostart => true do |node|
     node.vm.box = 'debian/stretch64'
-    node.vm.hostname = 'epcontest'
+    node.vm.hostname = 'test'
     node.vm.network :private_network, ip: "10.0.11.11", hostsupdater: "skip"
     node.vm.synced_folder ".", "/vagrant", type: "virtualbox"
     node.vm.provider "virtualbox" do |vb|
@@ -28,7 +28,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.gui = false
       vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
     end
-    node.vm.provision :shell, path: "vagrant/epcon_test.sh", privileged: false
+    node.vm.provision :shell, path: "vagrant/test.sh", privileged: false
   end
 
 end

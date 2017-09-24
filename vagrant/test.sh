@@ -5,7 +5,7 @@ sudo apt-get -y upgrade
 
 HOME=/home/vagrant
 
-sudo apt-get -y --force-yes install ssh libssl-dev libffi-dev python-dev curl rsync sshpass python
+sudo apt-get -y install ssh libssl-dev libffi-dev python-dev curl rsync sshpass python
 
 cp -f /vagrant/ansible/roles/ssh/files/id_rsa.pub ${HOME}/.ssh/
 cp -f /vagrant/ansible/roles/ssh/files/id_rsa.pub ${HOME}/.ssh/authorized_keys

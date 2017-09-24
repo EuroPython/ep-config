@@ -4,7 +4,13 @@
   shell: curl -sSL https://get.docker.com | sh
 
 - name: Install docker-compose
-  command: pip install docker-compose
+  command: >
+    pip install {{ item }}
+  with_items:
+    - docker-py
+    - docker-compose
+  become: yes
+  become_method: sudo
 
 - name: Add docker group
   group:

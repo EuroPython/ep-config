@@ -8,10 +8,10 @@ fi
 sudo apt-get update
 sudo apt-get -y upgrade
 
-sudo apt-get -y --force-yes install libssl-dev libffi-dev \
-                                    libssl-dev build-essential \
-                                    curl rsync httpie\
-                                    sshpass vim ssh
+sudo apt-get -y install libssl-dev libffi-dev \
+                        libssl-dev build-essential \
+                        curl rsync httpie\
+                        sshpass vim ssh
 
 sudo apt-get install -y libffi-dev libpython-dev \
                         python python-dev \
