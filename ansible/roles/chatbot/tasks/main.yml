@@ -1,0 +1,21 @@
+---
+
+# Prepare directories
+- name: chatbot | Create directories
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ group }}'
+  with_items:
+    - '{{ chatbot_docker_dir }}'
+    - '{{ chatbot_config_dir }}'
+    - '{{ chatbot_env_dir }}'
+
+- name: chatbot | Copy configuration files
+  copy:
+    src: config/chatbot/
+    dest: '{{ chatbot_config_dir }}'
+
+# - include: docker.yml
+#   tags: chatbot_docker

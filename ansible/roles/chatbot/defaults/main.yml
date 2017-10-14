@@ -1,0 +1,10 @@
+---
+
+chatbot_docker_path: "{{ dockers_dir }}/chatbot"
+
+dockerfile: 'Dockerfile'
+#dockerfile: 'Dockerfile.armhf'
+
+chatbot_docker_dir: '{{ dockers_dir }}/chatbot'
+chatbot_config_dir: '{{ config_dir }}/chatbot'
+chatbot_env_dir: '{{ env_dir }}/chatbot'

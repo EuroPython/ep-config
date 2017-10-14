@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+    errbot:
+        restart: always
+        build:
+            context: ./dockerfile/errbot/
+            dockerfile: {{ dockerfile }}
+        volumes:
+            - errbot_src:/usr/src/errbot/
+            - errbot_data:/usr/src/errbot/data
+            - ./config/errbot:/etc/errbot/:ro
+        env_file:
+            - env_files/errbot_env
+        command: errbot
+
+volumes:
+    errbot_src: ~
+    errbot_data: ~
