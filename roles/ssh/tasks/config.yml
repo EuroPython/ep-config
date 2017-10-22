@@ -8,7 +8,7 @@
     group: '{{ user }}'
     mode: 0700
 
-- name: ssh | Copy id files
+- name: ssh | Copy key files
   copy:
     src: '{{ item }}'
     dest: '{{ home_dir }}/.ssh'
@@ -17,10 +17,9 @@
     mode: 0600
   with_items:
     - 'id_rsa.pub'
-    - 'ssh-config'
     - 'known_hosts'
 
-- name: ssh | Copy id files
+- name: ssh | Copy key files
   copy:
     src: '{{ item }}'
     dest: '{{ home_dir }}/.ssh'
@@ -30,6 +29,14 @@
   with_items:
     - 'id_rsa'
   when: is_ssh_admin
+
+- name: ssh | Copy config file
+  copy:
+    src: 'ssh-config'
+    dest: '{{ home_dir }}/.ssh/config'
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    mode: 0600
 
 - name: ssh | Change '{{ home_dir }}/.ssh/id_rsa.pub' permissions
   file:
