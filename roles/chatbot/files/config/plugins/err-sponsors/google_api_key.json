@@ -1,0 +1,7 @@
+{
+  "private_key_id": "{{ pyper_sponsors_gdrive_api_private_key_id }}",
+  "private_key":    "{{ pyper_sponsors_gdrive_api_private_key }}",
+  "client_email":   "{{ pyper_sponsors_gdrive_api_client_email }}",
+  "client_id":      "{{ pyper_sponsors_gdrive_api_client_id }}",
+  "type":           "{{ pyper_sponsors_gdrive_api_type }}"
+}

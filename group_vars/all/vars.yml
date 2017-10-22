@@ -1,0 +1,18 @@
+---
+
+pyper_telegram_token: '{{ vault_pyper_telegram_token }}'
+
+pyper_google_gdrive_oauth_client_id:     '{{ vault_pyper_google_gdrive_oauth_client_id }}'
+pyper_google_gdrive_oauth_project_id:    '{{ vault_pyper_google_gdrive_oauth_project_id }}'
+pyper_google_gdrive_oauth_client_secret: '{{ vault_pyper_google_gdrive_oauth_client_secret }}'
+
+pyper_europython_rss_client_username:  '{{ vault_pyper_europython_rss_client_username }}'
+pyper_europython_rss_client_password:  '{{ vault_pyper_europython_rss_client_password }}'
+pyper_europython_rss_client_auth_type: '{{ vault_pyper_europython_rss_client_auth_type }}'
+pyper_europython_rss_url:              '{{ vault_pyper_europython_rss_url }}'
+
+pyper_sponsors_gdrive_api_private_key_id: '{{ vault_pyper_sponsors_gdrive_api_private_key_id }}'
+pyper_sponsors_gdrive_api_private_key:    '{{ vault_pyper_sponsors_gdrive_api_private_key }}'
+pyper_sponsors_gdrive_api_client_email:   '{{ vault_pyper_sponsors_gdrive_api_client_email }}'
+pyper_sponsors_gdrive_api_client_id:      '{{ vault_pyper_sponsors_gdrive_api_client_id }}'
+pyper_sponsors_gdrive_api_type:           '{{ vault_pyper_sponsors_gdrive_api_type }}'
