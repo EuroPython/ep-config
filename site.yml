@@ -19,7 +19,6 @@
 - hosts: manager
   any_errors_fatal: true
   roles:
-    - { role: common, become: yes, become_method: sudo }
     - { role: manager, become: yes, become_method: sudo }
     - { role: ssh, become: yes, become_method: sudo }
     - { role: fish, become: yes, become_method: sudo }
