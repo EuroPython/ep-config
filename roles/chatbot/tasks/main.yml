@@ -11,6 +11,7 @@
     - '{{ chatbot_docker_dir }}'
     - '{{ chatbot_config_dir }}'
     - '{{ chatbot_env_dir }}'
+    - '{{ chatbot_config_plugins_dir }}'
 
 - name: chatbot | Copy tokens.yml file
   copy:
@@ -24,29 +25,29 @@
     owner: '{{ user }}'
     group: '{{ group }}'
   with_items:
-    - '{{ chatbot_config_dir }}/err-rss'
-    - '{{ chatbot_config_dir }}/err-sponsors'
-    #- '{{ chatbot_config_dir }}/err-gdrive'
+    - '{{ chatbot_config_plugins_dir }}/err-rss'
+    - '{{ chatbot_config_plugins_dir }}/err-sponsors'
+    #- '{{ chatbot_config_plugins_dir }}/err-gdrive'
 
 - name: chatbot | Copy err-rss plugin config files
   copy:
-    src: 'config/err-rss/{{ item.src }}'
-    dest: '{{ chatbot_config_dir }}/err-rss/{{ item.dest }}'
+    src: 'config/plugins/err-rss/{{ item.src }}'
+    dest: '{{ chatbot_config_plugins_dir }}/err-rss/{{ item.dest }}'
   with_items:
     - { src: 'err-rss-vault.ini', dest: 'err-rss.ini' }
 
 - name: chatbot | Copy err-sponsors plugin config files
   copy:
-    src: 'config/err-sponsors/{{ item.src }}'
-    dest: '{{ chatbot_config_dir }}/err-sponsors/{{ item.dest }}'
+    src: 'config/plugins/err-sponsors/{{ item.src }}'
+    dest: '{{ chatbot_config_plugins_dir }}/err-sponsors/{{ item.dest }}'
   with_items:
     - { src: 'google_api_key.json', dest: 'google_api_key.json' }
     - { src: 'sponsor_agreement_template_eps-vault.tex', dest: 'sponsor_agreement_template_eps-vault.tex' }
 
 # - name: chatbot | Copy err-gdrive plugin config files
 #   copy:
-#     src: 'config/err-gdrive/{{ item.src }}'
-#     dest: '{{ chatbot_config_dir }}/err-gdrive/{{ item.dest }}'
+#     src: 'config/plugins/err-gdrive/{{ item.src }}'
+#     dest: '{{ chatbot_config_plugins_dir }}/err-gdrive/{{ item.dest }}'
 #   with_items:
 #     - { src: 'client_secrets.json', dest: 'client_secrets.json' }
 #     - { src: 'pydrive_settings.yml', dest: 'pydrive_settings.yml' }

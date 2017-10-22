@@ -7,4 +7,5 @@ dockerfile: 'Dockerfile'
 
 chatbot_docker_dir: '{{ dockers_dir }}/chatbot'
 chatbot_config_dir: '{{ config_dir }}/chatbot'
+chatbot_config_plugins_dir: '{{ chatbot_config_dir }}/plugins'
 chatbot_env_dir: '{{ env_dir }}/chatbot'
