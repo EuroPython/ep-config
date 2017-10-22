@@ -90,11 +90,8 @@ ENV/
 .ropeproject
 
 .idea
-tokens.yml
 configs/
 env_files/
-**/*.json
-**/*.ini
 
 .vscode
 vault-pass.txt
