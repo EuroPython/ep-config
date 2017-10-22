@@ -1,0 +1,47 @@
+---
+
+- name: ssh | Create '{{ home_dir }}/.ssh' folder
+  file:
+    path: '{{ home_dir }}/.ssh'
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    mode: 0700
+
+- name: ssh | Copy id files
+  copy:
+    src: '{{ item }}'
+    dest: '{{ home_dir }}/.ssh'
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    mode: 0600
+  with_items:
+    - 'id_rsa.pub'
+    - 'ssh-config'
+    - 'known_hosts'
+
+- name: ssh | Copy id files
+  copy:
+    src: '{{ item }}'
+    dest: '{{ home_dir }}/.ssh'
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    mode: 0600
+  with_items:
+    - 'id_rsa'
+  when: is_ssh_admin
+
+- name: ssh | Change '{{ home_dir }}/.ssh/id_rsa.pub' permissions
+  file:
+    path: '{{ home_dir }}/.ssh/id_rsa.pub'
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    mode: 0644
+#
+# - name: ssh | Create config file
+#   template:
+#     src: config.j2
+#     dest: roles/ssh/files/ssh-config
+#     mode: 0600
+#   vars:
+#       hosts: "{{ groups['all'] }}"

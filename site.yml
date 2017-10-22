@@ -15,3 +15,10 @@
     - { role: python, become: yes, become_method: sudo }
     - { role: docker-compose, become: yes, become_method: sudo}
     - { role: chatbot, tags: chatbot }
+
+- hosts: manager
+  any_errors_fatal: true
+  roles:
+    - { role: manager, become: yes, become_method: sudo }
+    - { role: ssh, become: yes, become_method: sudo }
+    - { role: fish, become: yes, become_method: sudo }

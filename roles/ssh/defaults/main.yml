@@ -1,0 +1,4 @@
+---
+
+hosts_file: "roles/ssh/files/known_hosts"
+hosts_file_tmp: "/tmp/known_hosts.tmp"
