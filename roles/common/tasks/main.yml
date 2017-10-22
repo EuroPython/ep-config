@@ -23,12 +23,3 @@
   become: yes
   become_method: sudo
   tags: always
-
-- name: Install some shell tools
-  apt:
-    name: '{{ item }}'
-  with_items:
-    - 'vim'
-    - 'ack-grep'
-    - 'ranger'
-    - 'httpie'

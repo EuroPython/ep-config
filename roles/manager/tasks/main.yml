@@ -30,6 +30,17 @@
   become: yes
   become_method: sudo
 
+- name: manager | Install shell tools
+  apt:
+    name: '{{ item }}'
+  with_items:
+    - 'vim'
+    - 'ack-grep'
+    - 'ranger'
+    - 'httpie'
+  become: yes
+  become_method: sudo
+
 - name: manager | Pip install ansible and others
   pip:
     requirements: /vagrant/requirements.txt
