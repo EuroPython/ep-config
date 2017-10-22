@@ -29,4 +29,6 @@
     name: '{{ item }}'
   with_items:
     - 'vim'
+    - 'ack-grep'
     - 'ranger'
+    - 'httpie'
