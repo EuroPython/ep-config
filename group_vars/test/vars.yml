@@ -1,1 +1,3 @@
 ---
+
+pyper_telegram_token: '{{ vault_pyper_telegram_token }}'

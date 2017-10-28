@@ -1,0 +1,8 @@
+---
+
+- name: chatbot restart
+  docker_service:
+    project_src: "{{ docker_compose_filepath }}"
+    project_name: chatbot
+    build: yes
+    recreate: smart

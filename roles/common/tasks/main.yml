@@ -11,10 +11,7 @@
   with_items:
     - '{{ tmp_install_dir }}'
     - '{{ bin_dir }}'
-    - '{{ env_dir }}'
-    - '{{ config_dir }}'
     - '{{ install_dir }}'
-    - '{{ dockers_dir }}'
 
 - name: Update apt repositories cache
   apt:

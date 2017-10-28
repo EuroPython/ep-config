@@ -45,6 +45,8 @@
   pip:
     requirements: /vagrant/requirements.txt
 
-# ansible-vault decrypt --vault-password-file=/vagrant/ansible/vault-pass.txt /home/vagrant/.ssh/id_rsa
-# echo "alias 'll=ls -la'" >> ~/.bashrc
-# echo "export ANSIBLE_VAULT_PASSWORD_FILE=/vagrant/ansible/vault-pass.txt" >> ~/.bashrc
+- name: manager | Add $ANSIBLE_VAULT_PASSWORD_FILE to the environment
+  blockinfile:
+    dest: '{{ home_dir }}/.bashrc'
+    block:  |
+      export ANSIBLE_VAULT_PASSWORD_FILE=/vagrant/ansible/vault-pass.txt

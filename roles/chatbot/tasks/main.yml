@@ -8,15 +8,9 @@
     owner: '{{ user }}'
     group: '{{ group }}'
   with_items:
-    - '{{ chatbot_docker_dir }}'
+    - '{{ chatbot_dockerfiles_dir }}'
     - '{{ chatbot_config_dir }}'
-    - '{{ chatbot_env_dir }}'
     - '{{ chatbot_config_plugins_dir }}'
-
-- name: chatbot | Copy tokens.yml file
-  copy:
-    src: config/tokens.yml
-    dest: '{{ chatbot_config_dir }}'
 
 - name: chatbot | Create plugin config folders
   file:
@@ -29,30 +23,31 @@
     - '{{ chatbot_config_plugins_dir }}/err-sponsors'
     #- '{{ chatbot_config_plugins_dir }}/err-gdrive'
 
-- name: chatbot | Copy err-rss plugin config files
+- name: chatbot | Copy tokens.yml file
   copy:
-    src: 'config/plugins/err-rss/{{ item.src }}'
-    dest: '{{ chatbot_config_plugins_dir }}/err-rss/{{ item.dest }}'
-  with_items:
-    - { src: 'err-rss-vault.ini', dest: 'err-rss.ini' }
+    src: config/tokens.yml
+    dest: '{{ chatbot_config_dir }}'
+  notify: chatbot restart
 
-- name: chatbot | Copy err-sponsors plugin config files
+- name: chatbot | Copy env file
   copy:
-    src: 'config/plugins/err-sponsors/{{ item.src }}'
-    dest: '{{ chatbot_config_plugins_dir }}/err-sponsors/{{ item.dest }}'
-  with_items:
-    - { src: 'google_api_key.json', dest: 'google_api_key.json' }
-    - { src: 'sponsor_agreement_template_eps-vault.tex', dest: 'sponsor_agreement_template_eps-vault.tex' }
+    src: env
+    dest: '{{ dockers_env_dir }}/{{ chatbot_env_file_basename }}'
+  notify: chatbot restart
 
-# - name: chatbot | Copy err-gdrive plugin config files
-#   copy:
-#     src: 'config/plugins/err-gdrive/{{ item.src }}'
-#     dest: '{{ chatbot_config_plugins_dir }}/err-gdrive/{{ item.dest }}'
-#   with_items:
-#     - { src: 'client_secrets.json', dest: 'client_secrets.json' }
-#     - { src: 'pydrive_settings.yml', dest: 'pydrive_settings.yml' }
+- name: chatbot | Copy Dockerfile file
+  copy:
+    src: '{{ dockerfile }}'
+    dest: '{{ chatbot_dockerfiles_dir }}/{{ dockerfile }}'
+  notify: chatbot restart
 
+- import_tasks: plugins.yml
+  tags: [chatbot_docker, chatbot_plugins]
+  notify: chatbot restart
 
+- import_tasks: docker_compose.yml
+  tags: chatbot_docker
+  notify: chatbot restart
 
-# - include: docker.yml
-#   tags: chatbot_docker
+- name: chatbot | make sure all handlers run
+  meta: flush_handlers

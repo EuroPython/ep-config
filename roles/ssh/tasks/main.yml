@@ -1,9 +1,9 @@
 ---
 
-- include: config.yml
+- import_tasks: config.yml
   tags:
     - config
 
-- include: known_hosts.yml
+- import_tasks: known_hosts.yml
   tags:
     - hosts

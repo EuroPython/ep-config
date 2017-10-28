@@ -1,0 +1,6 @@
+---
+
+#python_docker_version: 2.5.1
+python_docker_compose_version: 1.17.0rc1
+
+docker_compose_filepath: "{{ install_dir }}/docker-compose.yml"

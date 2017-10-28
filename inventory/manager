@@ -1,1 +1,1 @@
-manager ansible_connection=local ansible_ssh_host=vagrant ansible_ssh_user=vagrant ansible_ssh_private_key_file=/vagrant/.vagrant/machines/manager/virtualbox/private_key
+manager ansible_ssh_user=vagrant ansible_ssh_private_key_file=/vagrant/.vagrant/machines/manager/virtualbox/private_key

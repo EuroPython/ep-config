@@ -1,8 +1,18 @@
 ---
 
-user: root
+user: "root"
+group: "{{ ansible_ssh_user }}"
 
-tmp_install_dir:
-bin_dir:
-install_dir:
-dockers_dir: "{{ install_dir }}/dockers"
+home_dir: '/home/{{ user }}'
+
+tmp_install_dir: '{{ home_dir }}/tmp'
+install_dir:     '{{ home_dir }}/apps'
+bin_dir:         '{{ home_dir }}/bin'
+
+config_dir_basename: "config"
+env_dir_basename: "envfile"
+
+dockers_files_dir:   '{{ install_dir }}/dockerfile'
+dockers_volumes_dir: '{{ install_dir }}/volume'
+dockers_config_dir:  '{{ install_dir }}/{{ config_dir_basename }}'
+dockers_env_dir:     '{{ install_dir }}/{{ env_dir_basename }}'

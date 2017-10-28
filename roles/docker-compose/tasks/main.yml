@@ -1,23 +1,57 @@
 ---
 
-- name: Install docker
+- name: docker-compose | Create folders for docker-compose
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ group }}'
+  with_items:
+    - '{{ dockers_files_dir }}'
+    - '{{ dockers_volumes_dir }}'
+    - '{{ dockers_config_dir }}'
+    - '{{ dockers_env_dir }}'
+
+- name: docker-compose | Install docker
   shell: curl -sSL https://get.docker.com | sh
 
-- name: Install docker-compose and docker-py
+- name: docker-compose | Install docker-compose
   pip:
     name: '{{ item }}'
     state: forcereinstall
   with_items:
-    - docker-py
-    - docker-compose
+    #- docker=={{ python_docker_version }}
+    - docker-compose=={{ python_docker_compose_version }}
 
-- name: Add docker group
+- name: docker-compose | docker-compose.yml template file
+  copy:
+    src: docker-compose.yml
+    dest: "{{ docker_compose_filepath }}"
+    owner: "{{ user }}"
+    group: "docker"
+    mode: 0640
+
+- name: docker-compose | Add docker group
   group:
     name: docker
     state: present
 
-- name: Add user to docker group
+- name: docker-compose | Add user to docker group
   user:
     name: "{{ user }}"
     groups: docker
     append: yes
+
+- name: docker-compose | Restart the docker daemon
+  service:
+    name: docker
+    state: restarted
+
+- name: docker-compose | Change a few ownerships to root:docker
+  file:
+    path: '{{ item }}'
+    owner: root
+    group: docker
+  with_items:
+    - /var/run/docker.sock
+    - /usr/bin/docker
