@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 MAINTAINER Alexandre Savio <alexsavio@gmail.com>
 
 ENV LC_ALL C.UTF-8
@@ -9,15 +9,13 @@ ENV LANG C.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 
 ## Configure default locale
-RUN echo "deb http://deb.debian.org/debian jessie contrib" >> /etc/apt/sources.list && \
+RUN echo "deb http://deb.debian.org/debian stretch contrib" >> /etc/apt/sources.list && \
     apt-get update && \
     apt-get upgrade -y && \
     apt-get -y install -qq -y build-essential libssl-dev libxrender-dev libffi-dev \
                               wget git texlive-xetex cm-super \
                               python3 python3-pip && \
     pip3 install -U pip setuptools && \
-    pip3 install better_exceptions && \
-    pip3 install git+https://github.com/paradoxxxzero/better-exceptions-hook.git && \
     apt-get -y install ttf-mscorefonts-installer && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

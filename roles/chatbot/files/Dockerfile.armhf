@@ -1,4 +1,4 @@
-FROM resin/raspberrypi-python:3.5.1-wheezy
+FROM resin/raspberry-pi2-python:3.6.1-wheezy
 MAINTAINER Alexandre Savio <alexsavio@gmail.com>
 
 # Enable systemd
