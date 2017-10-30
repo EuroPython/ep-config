@@ -1,5 +1,15 @@
 ---
 
+# - name: docker-compose | Install dependencies
+#   apt:
+#     name: '{{ item }}'
+#     update_cache: yes
+#     cache_valid_time: 3600
+#   with_items:
+#     - build-essential
+#     - libssl-dev
+#     - python-dev
+
 - name: docker-compose | Create folders for docker-compose
   file:
     path: '{{ item }}'
@@ -12,16 +22,26 @@
     - '{{ dockers_config_dir }}'
     - '{{ dockers_env_dir }}'
 
+# - name: docker-compose | Install docker
+#   shell: curl -sSL https://get.docker.com | sh
+
 - name: docker-compose | Install docker
-  shell: curl -sSL https://get.docker.com | sh
+  apt:
+    name: '{{ item }}'
+    update_cache: yes
+    cache_valid_time: 3600
+  with_items:
+    - docker.io
 
 - name: docker-compose | Install docker-compose
   pip:
     name: '{{ item }}'
     state: forcereinstall
   with_items:
-    #- docker=={{ python_docker_version }}
-    - docker-compose=={{ python_docker_compose_version }}
+    #- docker=={{ pip_docker_version }}
+    # - docker-py
+    - cryptography=={{ pip_cryptography_version }}
+    - docker-compose=={{ pip_docker_compose_version }}
 
 - name: docker-compose | docker-compose.yml template file
   copy:
@@ -42,11 +62,6 @@
     groups: docker
     append: yes
 
-- name: docker-compose | Restart the docker daemon
-  service:
-    name: docker
-    state: restarted
-
 - name: docker-compose | Change a few ownerships to root:docker
   file:
     path: '{{ item }}'
@@ -55,3 +70,8 @@
   with_items:
     - /var/run/docker.sock
     - /usr/bin/docker
+
+- name: docker-compose | Restart the docker daemon
+  service:
+    name: docker
+    state: restarted
