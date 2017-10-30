@@ -41,11 +41,11 @@
     dest: '{{ chatbot_dockerfiles_dir }}/{{ dockerfile }}'
   notify: chatbot restart
 
-- import_tasks: plugins.yml
+- include_tasks: plugins.yml
   tags: [chatbot_docker, chatbot_plugins]
   notify: chatbot restart
 
-- import_tasks: docker_compose.yml
+- include_tasks: docker_compose.yml
   tags: chatbot_docker
   notify: chatbot restart
 
