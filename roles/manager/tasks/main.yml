@@ -12,21 +12,22 @@
   apt:
     name: '{{ item }}'
   with_items:
-    - 'libssl-dev'
-    - 'libffi-dev'
-    - 'libpython-dev'
-    - 'python-dev'
-    - 'build-essential'
-    - 'curl'
-    - 'rsync'
-    - 'sshpass'
-    - 'ssh'
-    - 'python'
-    - 'python-pip'
-    - 'python-setuptools'
-    - 'python-dbus'
-    - 'python-distutils-extra'
-    - 'python-apt'
+    - libssl-dev
+    - libffi-dev
+    - libpython-dev
+    - python-dev
+    - build-essential
+    - curl
+    - rsync
+    - sshpass
+    - ssh
+    - git
+    - python
+    - python-pip
+    - python-setuptools
+    - python-dbus
+    - python-distutils-extra
+    - python-apt
   become: yes
   become_method: sudo
 
