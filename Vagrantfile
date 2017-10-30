@@ -26,7 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :test, :autostart => true do |node|
-    node.vm.box = 'debian/stretch64'
+    node.vm.box = 'ubuntu/trusty64'
     node.vm.hostname = 'test'
     node.vm.network :private_network, ip: "10.0.11.11", hostsupdater: "skip"
     node.vm.synced_folder ".", "/vagrant", type: "virtualbox"
