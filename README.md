@@ -5,14 +5,24 @@ Configuration of the EuroPython website(s).
 
 TODO: add introduction, and a brief description
 
-How to run this Ansible playbook
---------------------------------
+# How to run this Ansible playbook
 
-Vagrant Manager
----------------
+
+## Vagrant Manager
 
 This project includes a Vagrantfile to create a virtual machine which you
 can use to develop, test, and mainly run the Ansible playbook.
+
+Note: To provision `manager` machine you need to have ansible>=2.4 installed on
+your host (either globally or via virtualenv).
+
+Recommended steps:
+```
+virtualenv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
 To start it, `cd` to the root of this project and run:
 
 ```
@@ -26,8 +36,7 @@ cd /vagrant
 ansible-playbook site.yml -i inventory/prod -l europython
 ```
 
-Testing
--------
+## Testing
 
 There is a Vagrant machine called `test`. This is used to deploy in a safe test environment.
 Launch it with:
