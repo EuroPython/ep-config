@@ -10,3 +10,13 @@
   user:
     name: "{{ user }}"
     shell: /usr/bin/fish
+
+
+- name: Create fish config dir
+  file: >
+    path='{{ home_dir }}/.config/fish/' state=directory
+
+- name: set /vagrant as default cd directory in config.fish
+  copy:
+    dest: '{{ home_dir }}/.config/fish/config.fish'
+    content:  "cd /vagrant"
