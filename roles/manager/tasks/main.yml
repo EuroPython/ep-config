@@ -50,4 +50,5 @@
   blockinfile:
     dest: '{{ home_dir }}/.bashrc'
     block:  |
+      cd /vagrant
       export ANSIBLE_VAULT_PASSWORD_FILE=/vagrant/ansible/vault-pass.txt
