@@ -58,3 +58,19 @@ sites:
             basic_user_file: /etc/nginx/.htpasswd
     disable_accounts: True
     
+  - servername: p2016.europython.eu
+    proxy_pass: http://ep2016
+    short_links:
+      - from: ^/ep2016_sponsor_brochure.pdf
+        to:   /media/conference/sponsor/brochure/ep2016_sponsor_brochure.pdf
+    locations:
+      - name: /static
+        alias: /usr/src/ep2016/data/static
+      - name: /media
+        alias: /usr/src/ep2016/data/media_public
+      - name: /media_public
+        alias: /usr/src/ep2016/data/media_public
+      - name: /media_private
+        alias: /usr/src/ep2016/data/media_private
+ 
+    disable_accounts: True
