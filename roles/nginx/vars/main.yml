@@ -1,0 +1,60 @@
+sites:
+  - servername: ep2018.europython.eu
+    proxy_pass: http://ep2018
+    short_links:
+      - from: ^/media/conference/sponsor/brochure/ep2018_sponsor_brochure.pdf
+        to:   /media/TBD/europython2017-sponsor-brochure-compressed.pdf
+      - from: ^/ep2018_sponsor_brochure.pdf
+        to: /media/TBD/europython2017-sponsor-brochure-compressed.pdf
+      - from: ^/volunteer-app
+        to:   https://signup.zone/EDyBYYK7QSi7zMLK7
+      - from: ^/mobile-app
+        to:   https://attendify.com/app/u77swu/
+    locations:
+      - name: /static
+        alias: /usr/src/ep2018/data/static
+      - name: /media
+        alias: /usr/src/ep2018/data/media_public
+      - name: /media_public
+        alias: /usr/src/ep2018/data/media_public
+      - name: /media_private
+        alias: /usr/src/ep2018/data/media_private
+      - name: /ep-ticket-search-app
+        alias: /usr/src/ep2018/ep-ticket-search-app
+        auth:
+          - basic: EuroPython 2018 Ticket Search App
+            basic_user_file: /etc/nginx/.htpasswd
+    
+    
+  - servername: ep2017.europython.eu
+    proxy_pass: http://ep2017
+    short_links:
+      - from: ^/media/conference/sponsor/brochure/ep2017_sponsor_brochure.pdf
+        to:   /media/filer_public/db/f0/dbf03a1f-5ebf-4dfb-b555-595e86a6fa7d/europython2017-sponsor-brochure-compressed.pdf
+      - from: ^/ep2017_sponsor_brochure.pdf
+        to:   /media/filer_public/db/f0/dbf03a1f-5ebf-4dfb-b555-595e86a6fa7d/europython2017-sponsor-brochure-compressed.pdf
+      - from: ^/volunteer-app
+        to:   https://signup.zone/WmCunmZz7Nw4X9oLt/
+      - from: ^/mobile-app
+        to:   https://attendify.com/app/yh3g1w/
+    locations:
+      - name: /static
+        alias: /usr/src/ep2017/data/static
+      - name: /media
+        alias: /usr/src/ep2017/data/media_public
+      - name: /media_public
+        alias: /usr/src/ep2017/data/media_public
+      - name: /media_private
+        alias: /usr/src/ep2017/data/media_private
+      - name: /ep-ticket-search-app
+        alias: /usr/src/ep2017/ep-ticket-search-app
+        auth:
+          - basic: EuroPython 2017 Ticket Search App
+            basic_user_file: /etc/nginx/.htpasswd
+      - name: /ep-social-ticket-search-app
+        alias: /usr/src/ep2017/ep-social-ticket-search-app
+        auth:
+          - basic: EuroPython 2017 Social Ticket Search App
+            basic_user_file: /etc/nginx/.htpasswd
+    disable_accounts: True
+    
