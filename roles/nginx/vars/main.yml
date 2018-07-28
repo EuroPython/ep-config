@@ -58,7 +58,7 @@ sites:
             basic_user_file: /etc/nginx/.htpasswd
     disable_accounts: True
     
-  - servername: p2016.europython.eu
+  - servername: ep2016.europython.eu
     proxy_pass: http://ep2016
     short_links:
       - from: ^/ep2016_sponsor_brochure.pdf
@@ -74,3 +74,4 @@ sites:
         alias: /usr/src/ep2016/data/media_private
  
     disable_accounts: True
+    
