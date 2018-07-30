@@ -17,8 +17,6 @@
   apt:
     update_cache: yes
     cache_valid_time: 3600
-  become: yes
-  become_method: sudo
   tags: always
 
 - name: Install dependencies
@@ -27,6 +25,7 @@
     update_cache: yes
     cache_valid_time: 3600
   with_items:
+    - language-pack-en
     - build-essential
     - libssl-dev
     - python-dev

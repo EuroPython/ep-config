@@ -11,24 +11,22 @@
     - curl
     - software-properties-common
 
-- name: Fetch Docker’s official GPG key
-  get_url:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    dest: docker_apt.key
-    validate_certs: false
-
 - name: Add Docker’s official GPG key
   apt_key:
-    file: docker_apt.key
+    url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
 - name: Add Docker's official APT repository
-  command: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable
+    state: present
+    update_cache: yes
 
 - name:
   apt:
     name: '{{ item }}'
     update_cache: yes
+    cache_valid_time: 3600
   with_items:
     - docker-ce
 
