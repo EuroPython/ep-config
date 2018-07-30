@@ -1,8 +1,0 @@
----
-
-user: "{{ ansible_ssh_user }}"
-group: "{{ ansible_ssh_user }}"
-
-home_dir: '/home/{{ user }}'
-
-is_ssh_admin: true
