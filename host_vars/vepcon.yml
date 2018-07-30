@@ -1,7 +1,7 @@
 ---
 
-user: "root"
-group: "{{ ansible_ssh_user }}"
+user: "{{ ansible_user }}"
+group: "{{ ansible_user }}"
 
 home_dir: '/home/{{ user }}'
 
