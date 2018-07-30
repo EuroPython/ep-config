@@ -8,38 +8,21 @@ TODO: add introduction, and a brief description
 How to run this Ansible playbook
 --------------------------------
 
-Vagrant Manager
----------------
+Install Ansible and other dependencies with:
 
-This project includes a Vagrantfile to create a virtual machine which you
-can use to develop, test, and mainly run the Ansible playbook.
-To start it, `cd` to the root of this project and run:
-
-```
-vagrant up manager
-vagrant ssh manager
+```bash
+pip install -r requirements.txt
 ```
 
-If everything went okay, you can now use Ansible to deploy:
-```
-cd /vagrant
-ansible-playbook site.yml -i inventory/prod -l europython
-```
 
 Testing
 -------
 
-There is a Vagrant machine called `test`. This is used to deploy in a safe test environment.
+There is a Vagrant machine called `vepcon`. This is used to deploy in a safe test environment.
 Launch it with:
 
-```
-vagrant up test
+```bash
+vagrant up
 ```
 
-Once it is provisioned by Vagrant, do:
-
-```
-vagrant ssh manager
-cd /vagrant
-ansible-playbook site.yml -i inventory -l test
-```
+It will run the Ansible playbook for the `vepcon` host.
