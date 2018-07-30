@@ -1,0 +1,30 @@
+---
+
+- name: Install dependencies
+  apt:
+    name: '{{ item }}'
+    update_cache: yes
+    cache_valid_time: 3600
+  with_items:
+    - build-essential
+    - libssl-dev
+    - python-dev
+    - python3
+    - python3-pip
+
+- name: Install docker-compose
+  pip:
+    name: '{{ item }}'
+    state: forcereinstall
+  with_items:
+    - cryptography=={{ pip_cryptography_version }}
+    - docker-compose=={{ pip_docker_compose_version }}
+  executable: pip3
+
+- name: docker-compose.yml template file
+  copy:
+    src: docker-compose.yml
+    dest: "{{ docker_compose_filepath }}"
+    owner: "{{ user }}"
+    group: "docker"
+    mode: 0640

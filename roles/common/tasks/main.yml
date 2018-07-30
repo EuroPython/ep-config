@@ -20,3 +20,15 @@
   become: yes
   become_method: sudo
   tags: always
+
+- name: Install dependencies
+  apt:
+    name: '{{ item }}'
+    update_cache: yes
+    cache_valid_time: 3600
+  with_items:
+    - build-essential
+    - libssl-dev
+    - python-dev
+    - python3
+    - python3-pip

@@ -1,16 +1,15 @@
 ---
 
-# - name: docker-compose | Install dependencies
-#   apt:
-#     name: '{{ item }}'
-#     update_cache: yes
-#     cache_valid_time: 3600
-#   with_items:
-#     - build-essential
-#     - libssl-dev
-#     - python-dev
+- include_tasks: install_docker.yml
+  tags: [docker, docker_compose]
 
-- name: docker-compose | Create folders for docker-compose
+- include_tasks: install_docker_compose.yml
+  tags: [docker, docker_compose]
+
+- include_tasks: folders.yml
+  tags: [docker, docker_compose]
+
+- name: Create folders for docker-compose
   file:
     path: '{{ item }}'
     state: directory
@@ -21,57 +20,3 @@
     - '{{ dockers_volumes_dir }}'
     - '{{ dockers_config_dir }}'
     - '{{ dockers_env_dir }}'
-
-# - name: docker-compose | Install docker
-#   shell: curl -sSL https://get.docker.com | sh
-
-- name: docker-compose | Install docker
-  apt:
-    name: '{{ item }}'
-    update_cache: yes
-    cache_valid_time: 3600
-  with_items:
-    - docker.io
-
-- name: docker-compose | Install docker-compose
-  pip:
-    name: '{{ item }}'
-    state: forcereinstall
-  with_items:
-    #- docker=={{ pip_docker_version }}
-    # - docker-py
-    - cryptography=={{ pip_cryptography_version }}
-    - docker-compose=={{ pip_docker_compose_version }}
-
-- name: docker-compose | docker-compose.yml template file
-  copy:
-    src: docker-compose.yml
-    dest: "{{ docker_compose_filepath }}"
-    owner: "{{ user }}"
-    group: "docker"
-    mode: 0640
-
-- name: docker-compose | Add docker group
-  group:
-    name: docker
-    state: present
-
-- name: docker-compose | Add user to docker group
-  user:
-    name: "{{ user }}"
-    groups: docker
-    append: yes
-
-- name: docker-compose | Change a few ownerships to root:docker
-  file:
-    path: '{{ item }}'
-    owner: root
-    group: docker
-  with_items:
-    - /var/run/docker.sock
-    - /usr/bin/docker
-
-- name: docker-compose | Restart the docker daemon
-  service:
-    name: docker
-    state: restarted
