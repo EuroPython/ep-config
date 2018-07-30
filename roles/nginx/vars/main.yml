@@ -22,8 +22,8 @@ sites:
       - name: /ep-ticket-search-app
         alias: /usr/src/ep2018/ep-ticket-search-app
         auth:
-          - basic: EuroPython 2018 Ticket Search App
-            basic_user_file: /etc/nginx/.htpasswd
+          basic: EuroPython 2018 Ticket Search App
+          basic_user_file: /etc/nginx/.htpasswd
     
     
   - servername: ep2017.europython.eu
@@ -49,13 +49,13 @@ sites:
       - name: /ep-ticket-search-app
         alias: /usr/src/ep2017/ep-ticket-search-app
         auth:
-          - basic: EuroPython 2017 Ticket Search App
-            basic_user_file: /etc/nginx/.htpasswd
+          basic: EuroPython 2017 Ticket Search App
+          basic_user_file: /etc/nginx/.htpasswd
       - name: /ep-social-ticket-search-app
         alias: /usr/src/ep2017/ep-social-ticket-search-app
         auth:
-          - basic: EuroPython 2017 Social Ticket Search App
-            basic_user_file: /etc/nginx/.htpasswd
+          basic: EuroPython 2017 Social Ticket Search App
+          basic_user_file: /etc/nginx/.htpasswd
     disable_accounts: True
     
   - servername: ep2016.europython.eu
@@ -73,5 +73,53 @@ sites:
       - name: /media_private
         alias: /usr/src/ep2016/data/media_private
  
+    disable_accounts: True
+    
+  - servername: ep2015.europython.eu
+    proxy_pass: http://ep2015
+    short_links:
+      - from: ^/ep2015_sponsor_brochure.pdf
+        to:   /media/conference/sponsor/brochure/ep2015_sponsor_brochure.pdf last
+    locations:
+      - name: /static
+        alias: /usr/src/ep2015/data/static
+      - name: /media
+        alias: /usr/src/ep2015/data/media_public
+      - name: /media_public
+        alias: /usr/src/ep2015/data/media_public
+      - name: /media_private
+        alias: /usr/src/ep2015/data/media_private
+      - name: /.well-known
+        alias: /usr/src/ep2015/data/.well-known
+    disable_accounts: True
+    
+  - servername: epstage.europython.eu
+    proxy_pass: http://epstage
+    locations:
+      - name: /static
+        alias: /usr/src/epstage/data/static
+      - name: /media
+        alias: /usr/src/epstage/data/media_public
+      - name: /media_public
+        alias: /usr/src/epstage/data/media_public
+      - name: /media_private
+        alias: /usr/src/epstage/data/media_private
+      - name: /ep-ticket-search-app
+        alias: /usr/src/epstage/ep-ticket-search-app
+        auth:
+          basic: EuroPython Stage Ticket Search App
+          basic_user_file: /etc/nginx/.htpasswd
+      - name: /ep-social-ticket-search-app
+        alias: /usr/src/epstage/ep-social-ticket-search-app
+        auth:
+          basic: EuroPython Stage Social Ticket Search App
+          basic_user_file: /etc/nginx/.htpasswd
+    disable_accounts: True
+    
+  - servername: dev.europython.eu
+    redirected: https://ep2018.europython.eu
+    short_links:
+      - from: ^/\.well-known/acme-challenge/(.*)$
+        to:   http://secure.europython.eu/.well-known/acme-challenge/$1 redirect
     disable_accounts: True
     
