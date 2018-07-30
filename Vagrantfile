@@ -4,7 +4,7 @@
 Vagrant.configure("2") do |config|
 
   config.vm.define :vepcon, :autostart => true do |node|
-    node.vm.box = "ubuntu/trusty64"
+    node.vm.box = "ubuntu/bionic64"
     node.vm.hostname = 'vepcon'
     node.vm.network :private_network, ip: "10.0.11.10"
     node.vm.synced_folder ".", "/vagrant", type: "virtualbox"
