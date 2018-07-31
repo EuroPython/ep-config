@@ -8,7 +8,8 @@ TODO: add introduction, and a brief description
 How to run this Ansible playbook
 --------------------------------
 
-Install Ansible and other dependencies with:
+1. Create a `vault-pass.txt` file with the provision password.
+2. Install Ansible and other dependencies with:
 
 ```bash
 pip install -r requirements.txt
