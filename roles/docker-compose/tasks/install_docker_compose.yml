@@ -16,8 +16,8 @@
     name: '{{ item }}'
     state: forcereinstall
   with_items:
-    - cryptography=={{ pip_cryptography_version }}
-    - docker-compose=={{ pip_docker_compose_version }}
+    - cryptography==2.3
+    - docker-compose==1.22.0
   executable: pip3
 
 - name: docker-compose.yml template file
