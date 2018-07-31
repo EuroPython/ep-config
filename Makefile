@@ -42,3 +42,6 @@ tag: clean
 	@echo "Creating git tag v$(tag)"
 	git tag v$(tag)
 	git push --tags
+
+runvm:
+	vagrant up vepcon

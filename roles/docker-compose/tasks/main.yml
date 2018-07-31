@@ -1,13 +1,17 @@
 ---
 
-- include_tasks: install_docker.yml
+- import_tasks: install_docker.yml
+  become: yes
+  become_method: sudo
   tags: [docker, docker_compose]
 
-- include_tasks: install_docker_compose.yml
+- import_tasks: install_docker_compose.yml
   tags: [docker, docker_compose]
 
-- include_tasks: folders.yml
-  tags: [docker, docker_compose]
+- name: Update bashrc for pipsi scripts
+  lineinfile:
+    dest: "{{ home_dir }}/.bashrc"
+    line: "export PATH=$PATH:{{ home_dir }}/.local/bin"
 
 - name: Create folders for docker-compose
   file:
@@ -20,3 +24,11 @@
     - '{{ dockers_volumes_dir }}'
     - '{{ dockers_config_dir }}'
     - '{{ dockers_env_dir }}'
+
+- name: docker-compose.yml template file
+  copy:
+    src: docker-compose.yml
+    dest: "{{ docker_compose_filepath }}"
+    owner: "{{ user }}"
+    group: "docker"
+    mode: 0640

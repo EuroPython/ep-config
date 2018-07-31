@@ -10,20 +10,21 @@
     - libssl-dev
     - python-dev
     - python-pip
+  become: yes
+  become_method: sudo
 
-- name: Install docker-compose
+- name: Install pipsi
   pip:
     name: '{{ item }}'
     state: forcereinstall
   with_items:
-    - cryptography==2.3
-    - docker-compose==1.22.0
+    - pipsi
   executable: pip3
+  become: yes
+  become_method: sudo
 
-- name: docker-compose.yml template file
-  copy:
-    src: docker-compose.yml
-    dest: "{{ docker_compose_filepath }}"
-    owner: "{{ user }}"
-    group: "docker"
-    mode: 0640
+- name: Install docker-compose
+  command:
+    pipsi install docker-compose==1.22.0
+  args:
+    creates: "{{ home_dir }}/.local/bin/docker-compose"
