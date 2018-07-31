@@ -2,8 +2,9 @@
 
 - name: Install some apt packages
   apt:
-    name: '{{ item }}'
-  with_items:
+    name: '{{ packages }}'
+  vars:
+    packages:
     - python-dev
     - python-pip
 

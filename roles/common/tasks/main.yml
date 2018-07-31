@@ -19,10 +19,11 @@
 
 - name: Install dependencies
   apt:
-    name: '{{ item }}'
+    name: '{{ packages }}'
     update_cache: yes
     cache_valid_time: 3600
-  with_items:
+  vars:
+    packages:
     - language-pack-en
     - build-essential
     - python3
