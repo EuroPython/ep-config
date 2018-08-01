@@ -1,8 +1,4 @@
 ---
 
-#pip_docker_version: 2.5.1
-pip_docker_compose_version: 1.17.0rc1
-pip_cryptography_version: 2.1.2
-
 docker_compose_project_src: "{{ install_dir }}"
 docker_compose_filepath: "{{ docker_compose_project_src }}/docker-compose.yml"

@@ -1,11 +1,13 @@
 #!/bin/bash
 
+set -eo pipefail
+
 sudo apt-get update
 sudo apt-get -y upgrade
 
 HOME=/home/vagrant
 
-sudo apt-get -y install ssh curl rsync sshpass python language-pack-en
+sudo apt-get -y install ssh curl rsync sshpass language-pack-en
 
 cp -f /vagrant/roles/ssh/files/id_rsa.pub ${HOME}/.ssh/
 cp -f /vagrant/roles/ssh/files/id_rsa.pub ${HOME}/.ssh/authorized_keys
