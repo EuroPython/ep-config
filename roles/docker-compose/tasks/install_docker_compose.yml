@@ -2,30 +2,18 @@
 
 - name: Install dependencies
   apt:
-    name: '{{ packages }}'
+    name:
+      - build-essential
+      - libssl-dev
+      - python-dev
+      - python-pip
     update_cache: yes
     cache_valid_time: 3600
-  vars:
-    packages:
-    - build-essential
-    - libssl-dev
-    - python-dev
-    - python-pip
-  become: yes
-  become_method: sudo
-
-- name: Install pipsi
-  pip:
-    name: '{{ item }}'
-    state: forcereinstall
-  with_items:
-    - pipsi
-  executable: pip3
   become: yes
   become_method: sudo
 
 - name: Install docker-compose
   command:
-    pipsi install docker-compose==1.22.0
+    pip install --user docker-compose==1.22.0
   args:
     creates: "{{ home_dir }}/.local/bin/docker-compose"
