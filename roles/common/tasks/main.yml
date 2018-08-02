@@ -1,31 +1,58 @@
 ---
 
-- name: prepare | Create directories
-  file:
-    path: '{{ item }}'
-    state: directory
-    owner: '{{ user }}'
-    group: '{{ group }}'
+- name: Install aptitude
+  become: true
+  apt:
+    pkg: aptitude
+    state: latest
+
+- name: Install base packages
+  apt:
+    pkg: "{{ item }}"
+    state: latest
   with_items:
-    - '{{ tmp_install_dir }}'
-    - '{{ bin_dir }}'
-    - '{{ install_dir }}'
-
-- name: Update apt repositories cache
-  apt:
-    update_cache: yes
-    cache_valid_time: 3600
-  tags: always
-
-- name: Install dependencies
-  apt:
-    name: '{{ packages }}'
-    update_cache: yes
-    cache_valid_time: 3600
-  vars:
-    packages:
-    - language-pack-en
+    - locales
+    - tzdata
     - build-essential
-    - python3
-    - python3-dev
-    - python3-pip
+    - curl
+    - git
+    - vim
+    - ntp
+    - ntpdate
+    - htop
+    - bash-completion
+    - ufw
+    - sudo
+    - apt-transport-https
+    - ca-certificates
+    - software-properties-common
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Upgrade packages
+  apt:
+    upgrade: yes
+
+- name: Create /root/.ssh directory
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /root/.ssh
+    - /etc/ssh
+
+- name: Set github authorized keys
+  authorized_key:
+    key: "https://github.com/{{ item }}.keys"
+    user: root
+  with_items: "{{ github_users }}"
+
+- name: Set authorized keys
+  authorized_key:
+    key: "{{ item }}"
+    user: "{{ user | default('root') }}"
+  with_items: "{{ ssh_keys }}"

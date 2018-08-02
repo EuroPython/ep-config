@@ -12,7 +12,5 @@ bin_dir: '{{ home_dir }}/bin'
 config_dir_basename: "config"
 env_dir_basename: "envfile"
 
-dockers_files_dir: '{{ install_dir }}/dockerfile'
-dockers_volumes_dir: '{{ install_dir }}/volume'
-dockers_config_dir: '{{ install_dir }}/{{ config_dir_basename }}'
-dockers_env_dir: '{{ install_dir }}/{{ env_dir_basename }}'
+dockers_files_dir: "{{ install_dir }}/docker"
+docker_configuration_repo: "git://github.com/matrixise/europython-config-the-revenant.git"

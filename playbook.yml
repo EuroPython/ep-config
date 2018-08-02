@@ -6,5 +6,5 @@
   roles:
     - { role: common, become: yes, become_method: sudo, tags: common }
     - { role: python, become: yes, become_method: sudo, tags: python }
-    - { role: docker-compose, tags: docker_compose }
+    - { role: docker-apps, tags: docker_apps }
     - { role: chatbot, tags: chatbot }
