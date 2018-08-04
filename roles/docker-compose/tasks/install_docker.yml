@@ -3,11 +3,11 @@
 - name: Install docker dependencies
   apt:
     name:
-      - gnupg2
-      - apt-transport-https
-      - ca-certificates
-      - curl
-      - software-properties-common
+    - gnupg2
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
     update_cache: yes
     cache_valid_time: 3600
 

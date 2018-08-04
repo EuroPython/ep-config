@@ -3,10 +3,8 @@
 - name: Install dependencies
   apt:
     name:
-      - build-essential
-      - libssl-dev
-      - python-dev
-      - python-pip
+    - build-essential
+    - libssl-dev
     update_cache: yes
     cache_valid_time: 3600
   become: yes
