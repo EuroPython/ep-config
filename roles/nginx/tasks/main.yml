@@ -1,6 +1,7 @@
 ---
 - name: Create NGINX configurations
   template:
-    src: europython.conf.j2
+    src: "{{ item.template }}"
     dest: /tmp/{{ item.servername }}.conf
   with_items: "{{ sites }}"
+
