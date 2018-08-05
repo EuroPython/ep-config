@@ -4,4 +4,3 @@
     src: "{{ item.template }}"
     dest: /tmp/{{ item.servername }}.conf
   with_items: "{{ sites }}"
-
