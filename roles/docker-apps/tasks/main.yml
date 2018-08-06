@@ -26,16 +26,6 @@
       - python3-pip
       - docker-ce
     state: latest
-  when: ansible_python_version.startswith('3')
-
-- name: Install docker, python-pip & setuptools
-  apt:
-    name:
-      - python-setuptools
-      - python-pip
-      - docker-ce
-    state: latest
-  when: ansible_python_version.startswith('2')
 
 - name: Install docker-compose
   pip:
