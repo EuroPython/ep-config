@@ -3,7 +3,27 @@
 - import_tasks: install_docker.yml
   become: yes
   become_method: sudo
-  tags: [docker, docker_compose]
+  tags: docker
 
-- import_tasks: install_docker_compose.yml
-  tags: [docker, docker_compose]
+- name: Install docker-compose dependencies
+  apt:
+    name:
+    - build-essential
+    - libssl-dev
+    update_cache: yes
+    cache_valid_time: 3600
+  become: yes
+  become_method: sudo
+  tags: docker_compose
+
+- name: Install docker-compose
+  pip:
+    name: docker-compose
+    extra_args: --user
+    version: 1.22.0
+
+- name: Install docker Python module
+  pip:
+    name: docker
+    extra_args: --user
+    version: 3.4.1
