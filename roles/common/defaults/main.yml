@@ -1,3 +1,4 @@
 ---
 
-root_privileges_present: true
+ssh_keys: []
+github_users: []

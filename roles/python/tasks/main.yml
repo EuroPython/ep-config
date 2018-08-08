@@ -1,17 +1,19 @@
 ---
 
-- name: Install some apt packages
+- name: Install python
   apt:
     name: '{{ packages }}'
   vars:
     packages:
-    - python-dev
-    - python-pip
+    - python3-dev
+    - python3-setuptools
+    - python3-pip
 
 - name: Update pip and setuptools
   pip:
     name: '{{ item }}'
-    state: forcereinstall
+    state: latest
+    executable: pip3
   with_items:
     - pip
     - setuptools
