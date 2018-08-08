@@ -51,23 +51,23 @@
     dest: "{{ home_dir }}/.bashrc"
     line: "alias 'll=ls -la'"
 
-- name: Create /root/.ssh directory
+- name: Create {{ home_dir }}/.ssh directory
   become: true
   file:
-    path: "{{ item }}"
+    path: "{{ home_dir }}/.ssh"
     state: directory
-  with_items:
-    - /root/.ssh
-    - /etc/ssh
+    owner: '{{ user }}'
+    group: '{{ group }}'
+    mode: 0700
 
 - name: Set github authorized keys
   authorized_key:
     key: "https://github.com/{{ item }}.keys"
-    user: root
+    user: '{{ user }}'
   with_items: "{{ github_users }}"
 
 - name: Set authorized keys
   authorized_key:
     key: "{{ item }}"
-    user: "{{ user | default('root') }}"
+    user: "{{ user }}"
   with_items: "{{ ssh_keys }}"
