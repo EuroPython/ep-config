@@ -1,4 +1,0 @@
-DEBUG=False
-TELEGRAM_TOKEN=
-ERRBOT_BASE_DIR=/usr/src/errbot
-ERRBOT_CFG_DIR=/etc/errbot

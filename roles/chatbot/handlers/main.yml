@@ -1,9 +1,0 @@
----
-
-- name: chatbot restart
-  docker_service:
-    api_version: 1.2.0
-    project_src: "{{ docker_compose_project_src }}"
-    project_name: chatbot
-    build: yes
-    recreate: smart
