@@ -1,5 +1,0 @@
-ansible-master ansible_ssh_host=localhost
-europython ansible_ssh_host=europython.io ansible_ssh_user=root
-
-[chatbot]
-europython
