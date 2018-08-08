@@ -9,7 +9,7 @@
     update: yes
 
 - name: Configure docker containers
-  docker_services:
+  docker_service:
     project_src:  "{{ dockers_files_dir }}"
     build: yes
     pull: yes
