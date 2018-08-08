@@ -21,9 +21,3 @@
     name: docker-compose
     extra_args: --user
     version: 1.22.0
-
-- name: Install docker Python module
-  pip:
-    name: docker
-    extra_args: --user
-    version: 3.4.1
