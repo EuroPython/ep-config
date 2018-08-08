@@ -1,0 +1,3 @@
+---
+
+docker_configuration_repo: "git://github.com/matrixise/europython-config-the-revenant.git"

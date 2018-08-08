@@ -4,13 +4,3 @@ user: "root"
 group: "{{ ansible_ssh_user }}"
 
 home_dir: '/home/{{ user }}'
-
-tmp_install_dir: '{{ home_dir }}/tmp'
-install_dir: '{{ home_dir }}/apps'
-bin_dir: '{{ home_dir }}/bin'
-
-config_dir_basename: "config"
-env_dir_basename: "envfile"
-
-dockers_files_dir: "{{ install_dir }}/docker"
-docker_configuration_repo: "git://github.com/matrixise/europython-config-the-revenant.git"
