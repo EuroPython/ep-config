@@ -39,6 +39,14 @@
   become: yes
   become_method: sudo
 
+- name: Update pip and setuptools
+  pip:
+    name: '{{ item }}'
+    state: latest
+  with_items:
+    - pip
+    - setuptools
+
 - name: Update bashrc
   lineinfile:
     dest: "{{ home_dir }}/.bashrc"

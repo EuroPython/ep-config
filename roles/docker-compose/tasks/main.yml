@@ -19,6 +19,7 @@
     state: directory
     owner: '{{ user }}'
     group: '{{ group }}'
+    mode: 0755
   with_items:
     - '{{ dockers_files_dir }}'
     - '{{ dockers_volumes_dir }}'
