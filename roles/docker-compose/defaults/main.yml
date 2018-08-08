@@ -1,0 +1,3 @@
+---
+
+docker_compose_project_src: "{{ install_dir }}"
