@@ -3,15 +3,29 @@
 - name: Clone docker configuration
   git:
     repo: "{{ docker_configuration_repo }}"
-    dest: "{{ dockers_files_dir }}"
+    dest: "{{ epcon_docker_apps_dir }}"
     force: yes
     clone: yes
     update: yes
 
-- name: Configure docker containers
-  docker_service:
-    project_src:  "{{ dockers_files_dir }}"
-    build: yes
-    pull: yes
-    recreate: always
-    state: present
+- include_tasks: venv_files.yml
+  tags: venv_files
+
+
+# - name: copy the config templates
+#
+# - name: copy the config files
+#
+# - name: copy the scripts
+
+
+# - name: Configure docker containers
+#   docker_service:
+#     project_src:  "{{ epcon_docker_apps_dir }}"
+#     build: yes
+#     pull: yes
+#     recreate: always
+#     state: present
+#
+# - include_tasks: cronjobs.yml
+#   tags: cron

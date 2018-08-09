@@ -1,0 +1,29 @@
+#
+# Docker Mailserver config
+#
+
+# Debug ?
+DMS_DEBUG=1
+
+# Virus & spam protection
+ENABLE_CLAMAV=1
+ENABLE_SPAMASSASSIN=1
+SA_TAG2=4.9
+SA_KILL=4.9
+ENABLE_POSTGREY=0
+
+# Mailserver internals
+ONE_DIR=1
+PERMIT_DOCKER=network
+
+# DoS protection
+ENABLE_FAIL2BAN=1
+
+# Mail config
+OVERRIDE_HOSTNAME={{ vault_mail_override_hostname }}
+POSTMASTER_ADDRESS={{ vault_mail_postmaster_address }}
+
+# TLS config
+SSL_TYPE={{ vault_mail_ssl_type }}
+SSL_CERT_PATH={{ vault_mail_ssl_cert_path }}
+SSL_KEY_PATH={{ vault_mail_ssl_key_path }}

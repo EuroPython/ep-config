@@ -1,3 +1,4 @@
 ---
 
-docker_configuration_repo: "git://github.com/matrixise/europython-config-the-revenant.git"
+epcon_docker_apps_dir: "{{ home_dir }}/apps"
+docker_configuration_repo: "git://github.com/alexsavio/europython-config-the-revenant.git"

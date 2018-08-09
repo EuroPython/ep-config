@@ -1,0 +1,21 @@
+---
+
+- name: Create venv_files folder
+  file:
+    path: "{{ home_dir }}/venv_files"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0700
+
+- name:  Move venv_files templates
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ home_dir }}/venv_files/{{ item.path | replace('.j2', '' )}}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0600
+  with_filetree: 'templates/docker_env_files'
+  when: item.state == 'file'
+  # notify:
+  #    - restart docker_compose
