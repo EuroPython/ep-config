@@ -11,6 +11,8 @@
 - include_tasks: venv_files.yml
   tags: venv_files
 
+- include_tasks: cronjobs.yml
+  tags: cronjobs, cron
 
 # - name: copy the config templates
 #
