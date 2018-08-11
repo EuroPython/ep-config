@@ -1,0 +1,8 @@
+#!/bin/bash
+
+CONFIG_DIR={{ epcon_config_dir }}
+
+echo "Please enter the account name in wiki style, e.g. JoeUser"
+read ACCOUNT
+#htpasswd -s config/wiki/conf/user.auth $ACCOUNT
+echo "$ACCOUNT:{SHA-256}$(mkpasswd -m SHA-256)" >> $CONFIG_DIR/wiki/conf/user.auth

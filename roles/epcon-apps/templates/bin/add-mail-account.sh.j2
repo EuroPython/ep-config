@@ -1,0 +1,7 @@
+#!/bin/bash
+
+CONFIG_DIR={{ epcon_config_dir }}
+
+echo "Please enter the account name with domain, e.g. xyz@europython.io"
+read ACCOUNT
+echo "$ACCOUNT|$(doveadm pw -s SHA256-CRYPT)" >> $CONFIG_DIR/mail/postfix-accounts.cf

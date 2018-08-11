@@ -8,17 +8,33 @@
     clone: yes
     update: yes
 
-- include_tasks: venv_files.yml
-  tags: venv_files
+- name: Create apps  folders
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0755
+  with_items:
+    - "{{ epcon_config_dir }}"
+    - "{{ epcon_scripts_dir }}"
 
-- include_tasks: cronjobs.yml
-  tags: cronjobs, cron
+- name: Copy the helper scripts
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ epcon_scripts_dir }}/{{ item.path | replace('.j2', '' )}}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0600
+  with_filetree: 'templates/bin'
+  when: item.state == 'file'
+
 
 # - name: copy the config templates
 #
 # - name: copy the config files
 #
-# - name: copy the scripts
+
 
 
 # - name: Configure docker containers
@@ -31,3 +47,6 @@
 #
 # - include_tasks: cronjobs.yml
 #   tags: cron
+
+- include_tasks: cronjobs.yml
+  tags: cronjobs, cron
