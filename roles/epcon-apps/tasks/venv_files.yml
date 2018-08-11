@@ -1,6 +1,6 @@
 ---
 
-- name: Create venv_files folder
+- name: Create {{ epcon_apps_env_files_dir }} folder
   file:
     path: "{{ epcon_apps_env_files_dir }}"
     state: directory
@@ -8,7 +8,7 @@
     group: "{{ group }}"
     mode: 0700
 
-- name:  Move venv_files templates
+- name:  Create app environment files
   template:
     src: "{{ item.src }}"
     dest: "{{ epcon_apps_env_files_dir }}/{{ item.path | replace('.j2', '' )}}"
