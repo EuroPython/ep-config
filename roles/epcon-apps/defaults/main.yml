@@ -1,4 +1,5 @@
 ---
 
 epcon_docker_apps_dir: "{{ home_dir }}/apps"
+epcon_apps_env_files_dir: "{{ home_dir }}/venv_files"
 docker_configuration_repo: "git://github.com/alexsavio/europython-config-the-revenant.git"

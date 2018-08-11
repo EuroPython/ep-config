@@ -2,7 +2,7 @@
 
 - name: Create venv_files folder
   file:
-    path: "{{ home_dir }}/venv_files"
+    path: "{{ epcon_apps_env_files_dir }}"
     state: directory
     owner: "{{ user }}"
     group: "{{ group }}"
@@ -11,7 +11,7 @@
 - name:  Move venv_files templates
   template:
     src: "{{ item.src }}"
-    dest: "{{ home_dir }}/venv_files/{{ item.path | replace('.j2', '' )}}"
+    dest: "{{ epcon_apps_env_files_dir }}/{{ item.path | replace('.j2', '' )}}"
     owner: "{{ user }}"
     group: "{{ group }}"
     mode: 0600
