@@ -5,6 +5,5 @@
   any_errors_fatal: true
   roles:
     - { role: common, become: yes, become_method: sudo, tags: common }
-    - { role: python, become: yes, become_method: sudo, tags: python }
-    - { role: docker-compose, tags: docker_compose }
-    - { role: chatbot, tags: chatbot }
+    - { role: docker-compose, tags: docker }
+    - { role: epcon-apps, tags: apps }

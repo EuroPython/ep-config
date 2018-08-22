@@ -3,32 +3,21 @@
 - import_tasks: install_docker.yml
   become: yes
   become_method: sudo
-  tags: [docker, docker_compose]
+  tags: docker
 
-- import_tasks: install_docker_compose.yml
-  tags: [docker, docker_compose]
+- name: Install docker-compose dependencies
+  apt:
+    name:
+    - build-essential
+    - libssl-dev
+    update_cache: yes
+    cache_valid_time: 3600
+  become: yes
+  become_method: sudo
+  tags: docker_compose
 
-- name: Update bashrc for pipsi scripts
-  lineinfile:
-    dest: "{{ home_dir }}/.bashrc"
-    line: "export PATH=$PATH:{{ home_dir }}/.local/bin"
-
-- name: Create folders for docker-compose
-  file:
-    path: '{{ item }}'
-    state: directory
-    owner: '{{ user }}'
-    group: '{{ group }}'
-  with_items:
-    - '{{ dockers_files_dir }}'
-    - '{{ dockers_volumes_dir }}'
-    - '{{ dockers_config_dir }}'
-    - '{{ dockers_env_dir }}'
-
-- name: docker-compose.yml template file
-  copy:
-    src: docker-compose.yml
-    dest: "{{ docker_compose_filepath }}"
-    owner: "{{ user }}"
-    group: "docker"
-    mode: 0640
+- name: Install docker-compose
+  pip:
+    name: docker-compose
+    extra_args: --user
+    version: 1.22.0

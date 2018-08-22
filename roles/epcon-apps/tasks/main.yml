@@ -1,0 +1,17 @@
+---
+
+- name: Clone docker configuration
+  git:
+    repo: "{{ docker_configuration_repo }}"
+    dest: "{{ dockers_files_dir }}"
+    force: yes
+    clone: yes
+    update: yes
+
+- name: Configure docker containers
+  docker_service:
+    project_src:  "{{ dockers_files_dir }}"
+    build: yes
+    pull: yes
+    recreate: always
+    state: present

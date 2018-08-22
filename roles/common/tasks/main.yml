@@ -1,31 +1,73 @@
 ---
 
-- name: prepare | Create directories
-  file:
-    path: '{{ item }}'
-    state: directory
-    owner: '{{ user }}'
-    group: '{{ group }}'
-  with_items:
-    - '{{ tmp_install_dir }}'
-    - '{{ bin_dir }}'
-    - '{{ install_dir }}'
-
-- name: Update apt repositories cache
+- name: Update apt cache
   apt:
     update_cache: yes
     cache_valid_time: 3600
-  tags: always
+    upgrade: yes
+  become: yes
+  become_method: sudo
 
-- name: Install dependencies
+- name: Upgrade packages
   apt:
-    name: '{{ packages }}'
-    update_cache: yes
-    cache_valid_time: 3600
-  vars:
-    packages:
-    - language-pack-en
+    name:
     - build-essential
     - python3
     - python3-dev
     - python3-pip
+    - locales
+    - tzdata
+    - build-essential
+    - curl
+    - git
+    - vim
+    - ntp
+    - ntpdate
+    - htop
+    - bash-completion
+    - ufw
+    - sudo
+    - apt-transport-https
+    - ca-certificates
+    - software-properties-common
+    - ssh
+    - rsync
+    - sshpass
+    - language-pack-en
+    state: latest
+  become: yes
+  become_method: sudo
+
+- name: Update pip and setuptools
+  pip:
+    name: '{{ item }}'
+    state: latest
+  with_items:
+    - pip
+    - setuptools
+
+- name: Update bashrc
+  lineinfile:
+    dest: "{{ home_dir }}/.bashrc"
+    line: "alias 'll=ls -la'"
+
+- name: Create {{ home_dir }}/.ssh directory
+  become: true
+  file:
+    path: "{{ home_dir }}/.ssh"
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ group }}'
+    mode: 0700
+
+- name: Set github authorized keys
+  authorized_key:
+    key: "https://github.com/{{ item }}.keys"
+    user: '{{ user }}'
+  with_items: "{{ github_users }}"
+
+- name: Set authorized keys
+  authorized_key:
+    key: "{{ item }}"
+    user: "{{ user }}"
+  with_items: "{{ ssh_keys }}"

@@ -15,6 +15,16 @@ How to run this Ansible playbook
 pip install -r requirements.txt
 ```
 
+3. Launch the ansible playbook
+
+```bash
+ansible-playbook playbook.yml
+```
+
+Continuous Integration / Delivery
+---------------------------------
+
+TODO: travis ?
 
 Testing
 -------
