@@ -6,3 +6,4 @@ epcon_scripts_dir: "{{ home_dir }}/bin"
 epcon_apps_env_files_dir: "{{ home_dir }}/venv_files"
 
 docker_configuration_repo: "git://github.com/alexsavio/europython-config-the-revenant.git"
+epcon_letsencrypt_config_dir: "{{ epcon_config_dir }}/letsencrypt"
