@@ -1,0 +1,22 @@
+---
+
+- name: Create configuration folders
+  file:
+    path: "{{ epcon_wiki_config_dir }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0755
+    recurse: yes
+
+- name:  Copy configuration files
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ epcon_wiki_config_dir }}/{{ item.path | replace('vault_', '' )}}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0600
+  with_filetree: 'files/config/wiki/conf'
+  when: item.state == 'file'
+  notify:
+    - restart wiki container

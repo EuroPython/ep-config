@@ -37,6 +37,8 @@
   tags: letsencrypt, ssl
 
 
+- include_tasks: wiki.yml
+  tags: wiki
 
 # - name: Configure docker containers
 #   docker_service:
