@@ -40,6 +40,9 @@
 - include_tasks: wiki.yml
   tags: wiki
 
+- include_tasks: chatbot.yml
+  tags: chatbot, bot
+
 # - name: Configure docker containers
 #   docker_service:
 #     project_src:  "{{ epcon_docker_apps_dir }}"
