@@ -1,0 +1,21 @@
+---
+
+- name: Create {{ epcon_apps_env_files_dir }} folder
+  file:
+    path: "{{ epcon_apps_env_files_dir }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0700
+
+- name:  Create app environment files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ epcon_apps_env_files_dir }}/{{ item.path | replace('.j2', '' )}}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0600
+  with_filetree: 'templates/docker_env_files'
+  when: item.state == 'file'
+  # notify:
+  #    - restart docker_compose

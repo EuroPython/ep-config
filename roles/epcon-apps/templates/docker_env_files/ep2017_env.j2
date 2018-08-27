@@ -1,0 +1,22 @@
+DEBUG=False
+ALLOWED_HOSTS=.europython.eu
+SECRET_KEY={{ vault_ep2017_django_secret_key }}
+HTTPS=on
+wsgi.url_scheme=https
+
+STRIPE_ENABLED=True
+STRIPE_COMPANY_NAME="Python Italia APS"
+STRIPE_COMPANY_LOGO=https://ep2017.europython.eu/media/filer_public/b2/9f/b29f4387-e2d2-4efa-85c6-fac7a7c54f4a/ep2017-device-128x128.png
+STRIPE_SECRET_KEY={{ vault_ep2017_stripe_secret_key }}
+STRIPE_PUBLISHABLE_KEY={{ vault_ep2017_stripe_publishable_key }}
+
+MAX_TICKETS=25
+
+PAYPAL_RECEIVER_EMAIL={{ vault_ep2017_paypal_account }}
+PAYPAL_TEST=False
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY={{ vault_ep2017_social_auth_google_oauth2_key }}
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET={{ vault_ep2017_social_auth_google_oauth2_secret }}
+
+RECAPTCHA_PUBLIC_KEY = {{ vault_ep2017_recaptcha_public_key }}
+RECAPTCHA_PRIVATE_KEY = {{ vault_ep2017_recaptcha_private_key }}

@@ -51,6 +51,11 @@
     dest: "{{ home_dir }}/.bashrc"
     line: "alias 'll=ls -la'"
 
+- name: Add {{ home_dir }}/bin to $PATH
+  lineinfile:
+    dest: "{{ home_dir }}/.bashrc"
+    line: "export PATH=$PATH:{{ home_dir }}/bin"
+
 - name: Create {{ home_dir }}/.ssh directory
   become: true
   file:

@@ -1,0 +1,70 @@
+---
+
+- name: Helpdesk: poll incoming emails
+  cron:
+    name: "poll emails for helpdesk"
+    job: "docker exec webarch_helpdesk_1 /usr/src/helpdesk/manage.py get_email 1>/dev/null 2>/dev/null"
+    state: present
+
+- name: Let's Encrypt updates
+  cron:
+    name: "letsencrypt updates"
+    minute: "15"
+    hour: "22"
+    job: "cd /home/webarch; /usr/local/bin/docker-compose run --rm letsencrypt make cron-update 1>/dev/null 2>/dev/null"
+    state: present
+
+- name: Restart nginx once a night to catch up with cert changes
+  cron:
+    name: "nginx restart"
+    minute: "30"
+    hour: "22"
+    job: "cd /home/webarch; /usr/local/bin/docker-compose restart nginx 1>/dev/null 2>/dev/null"
+    state: present
+
+- name: Restart mail server once a night to catch up with cert changes
+  cron:
+    name: "mail restart"
+    minute: "32"
+    hour: "22"
+    job: "cd /home/webarch; /usr/local/bin/docker-compose restart mail 1>/dev/null 2>/dev/null"
+    state: present
+
+- name: Train SpamAssassin
+  cron:
+    name: "train spamassassin"
+    minute: "0"
+    hour: "3"
+    job: "docker exec webarch_mail_1 sa-learn --spam /var/mail/europython.io/helpdesk/.Junk --dbpath /var/mail-state/lib-amavis/.spamassassin"
+    state: present
+
+- name: Secure the website database and all copies
+  cron:
+    name: "chmod epcon db"
+    minute: "5"
+    job: "find /home -follow -name 'p3*.db' -exec chmod 660 {} ';' > /dev/null 2>&1"
+    state: present
+
+# TODO: this could go away?
+- name: Pull the latest ECB FX rates into ep2018
+  cron:
+    name: "chmod epcon db"
+    minute: "5"
+    hour: "3-6,17-20"
+    job: "docker exec webarch_ep2018_1 python manage.py pull_latest_exrates > /dev/null 2>&1"
+    state: present
+
+# TODO: this could go away or be updated?
+- name: Update the accepted-talks.json file used by the conference info system
+  cron:
+    name: "chmod epcon db"
+    minute: "15"
+    job: "docker exec webarch_ep2018_1 python manage.py talk_abstracts --talk_status accepted ep2018 > /home/webarch/volumes/webarch_ep2018_media_public/_data/conference/TZrs5hIDuH0VPBhx/accepted-talks.json"
+    state: present
+
+- name: Rebuild ticket search app
+  cron:
+    name: "chmod epcon db"
+    minute: "10"
+    job: "docker exec -it webarch_ep2018_1 python manage.py build_ticket_search_app ep2018 > /dev/null 2>&1"
+    state: present
