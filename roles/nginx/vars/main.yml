@@ -8,11 +8,11 @@ sites:
       - europython.eu
       - eu.pycon.org
       - euro.pycon.org
-    root: /www/html
+    root: /var/www/html
 
   - servername: localhost
     template: localhost.conf.j2
-    root: /www/html
+    root: /var/www/html
 
   - servername: secure.europython.eu
     template: secure.europython.eu.conf.j2
@@ -24,7 +24,7 @@ sites:
       - cloud1.europython.io
       - mail.europython.io
       - europython.io
-    root: /www/html
+    root: /var/www/html
     locations:
       - name: /.well-known/acme-challenge/
         alias: /home/letsencrypt/acme-challenge/
