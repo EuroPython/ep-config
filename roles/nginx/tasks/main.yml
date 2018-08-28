@@ -1,6 +1,26 @@
 ---
+- name: Install NGINX
+  package:
+    name: nginx
+    state: present
+  become: yes
+  become_method: sudo
+
 - name: Create NGINX configurations
   template:
     src: "{{ item.template }}"
-    dest: /tmp/{{ item.servername }}.conf
+    dest: /etc/nginx/sites-available/{{ item.servername }}.conf
   with_items: "{{ sites }}"
+  notify: restart nginx
+  become: yes
+  become_method: sudo
+
+- name: Enable NGINX configurations
+  file:
+    src: /etc/nginx/sites-available/{{ item.servername }}.conf
+    dest: /etc/nginx/sites-enabled/{{ item.servername }}.conf
+    state: link
+  with_items: "{{ sites }}"
+  notify: restart nginx
+  become: yes
+  become_method: sudo
