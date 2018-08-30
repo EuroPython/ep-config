@@ -19,8 +19,6 @@ sites:
     server_names:
       - secure.europython.eu
       - mail.europython.eu
-      - mattermost.europython.eu
-      - mattermost.europython.io
       - cloud1.europython.io
       - mail.europython.io
       - europython.io
