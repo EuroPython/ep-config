@@ -3,8 +3,6 @@
   package:
     name: nginx
     state: present
-  become: yes
-  become_method: sudo
 
 - name: Create NGINX configurations
   template:
@@ -12,8 +10,6 @@
     dest: /etc/nginx/sites-available/{{ item.servername }}.conf
   with_items: "{{ sites }}"
   notify: restart nginx
-  become: yes
-  become_method: sudo
 
 - name: Enable NGINX configurations
   file:
@@ -22,5 +18,3 @@
     state: link
   with_items: "{{ sites }}"
   notify: restart nginx
-  become: yes
-  become_method: sudo

@@ -7,4 +7,4 @@
     - { role: common, become: yes, become_method: sudo, tags: common }
     - { role: docker-compose, tags: docker }
     - { role: epcon-apps, tags: apps }
-    - { role: nginx, tags: nginx }
+    - { role: nginx, become: yes, become_method: sudo, tags: nginx }
