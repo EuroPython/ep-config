@@ -18,5 +18,5 @@
     mode: 0600
   with_filetree: 'files/config/letsencrypt'
   when: item.state == 'file'
-  notify:
-    - restart wiki container
+  # notify:
+  #   - restart wiki container
