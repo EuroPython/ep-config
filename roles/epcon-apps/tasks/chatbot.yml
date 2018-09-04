@@ -20,3 +20,15 @@
   when: item.state == 'file'
   # notify:
   #    - restart docker_compose
+
+- name:  Copy configuration files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ epcon_chatbot_config_dir }}/{{ item.path }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0600
+  with_filetree: 'files/config/errbot'
+  when: item.state == 'file'
+  # notify:
+  #    - restart docker_compose
