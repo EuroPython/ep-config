@@ -1,6 +1,1 @@
 ---
-
-user: "root"
-group: "{{ ansible_ssh_user }}"
-
-home_dir: '/home/{{ user }}'

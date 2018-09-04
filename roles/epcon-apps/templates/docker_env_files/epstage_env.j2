@@ -1,0 +1,26 @@
+DEBUG=False
+ALLOWED_HOSTS=.europython.eu
+SECRET_KEY={{ vault_epstage_django_secret_key }}
+HTTPS=on
+wsgi.url_scheme=https
+
+SERVER_EMAIL={{ vault_epstage_server_email }}
+DEFAULT_FROM_EMAIL={{ vault_epstage_default_from_email }}
+
+#STRIPE_ENABLED=True
+STRIPE_ENABLED=False
+STRIPE_COMPANY_NAME="EuroPython Society"
+STRIPE_COMPANY_LOGO=https://ep2017.europython.eu/media/filer_public/7a/0a/7a0a64ba-6b74-4a3b-b8ed-6524e7b13268/eps-logo-v3-150px-round-alpha.png
+STRIPE_SECRET_KEY={{ vault_epstage_stripe_secret_key }}
+STRIPE_PUBLISHABLE_KEY={{ vault_epstage_stripe_publishable_key }}
+
+MAX_TICKETS=25
+
+PAYPAL_RECEIVER_EMAIL={{ vault_epstage_paypal_account }}
+PAYPAL_TEST=True
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY={{ vault_epstage_social_auth_google_oauth2_key }}
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET={{ vault_epstage_social_auth_google_oauth2_secret }}
+
+RECAPTCHA_PUBLIC_KEY = {{ vault_epstage_recaptcha_public_key }}
+RECAPTCHA_PRIVATE_KEY = {{ vault_epstage_recaptcha_private_key }}
