@@ -1,0 +1,16 @@
+# Let's Encrypt validation host: {{ item.servername }}
+server {
+        listen 80;
+        listen [::]:80;
+
+        server_name {% for name in item.server_names %}{{ name }} {% endfor %};
+        server_tokens off;
+
+	root {{ item.root }};
+
+        {% for location in item.locations | default({}, true) %}
+	location {{ location.name }} {
+		alias {{ location.alias }};
+	}
+        {% endfor %}
+}
