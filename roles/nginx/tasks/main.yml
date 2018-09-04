@@ -1,0 +1,20 @@
+---
+- name: Install NGINX
+  package:
+    name: nginx
+    state: present
+
+- name: Create NGINX configurations
+  template:
+    src: "{{ item.template }}"
+    dest: /etc/nginx/sites-available/{{ item.servername }}.conf
+  with_items: "{{ sites }}"
+  notify: restart nginx
+
+- name: Enable NGINX configurations
+  file:
+    src: /etc/nginx/sites-available/{{ item.servername }}.conf
+    dest: /etc/nginx/sites-enabled/{{ item.servername }}.conf
+    state: link
+  with_items: "{{ sites }}"
+  notify: restart nginx
