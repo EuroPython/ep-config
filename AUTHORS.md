@@ -9,3 +9,4 @@ Contributors
 - Mark Smith <@judy2k>
 - Quentin Dawans <https://ovv.wtf>
 - Stéphane Wirtel <https://wirtel.be>
+- Bruno Hanzen <@Bruno-Hanzen>
