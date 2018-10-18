@@ -7,4 +7,9 @@
     - { role: common, become: yes, become_method: sudo, tags: common }
     - { role: docker-compose, tags: docker }
     - { role: epcon-apps, tags: apps }
-    - { role: nginx, become: yes, become_method: sudo, tags: nginx }
+    - { role: nginx, tags: nginx }
+    # - { role: epcon, tags: epcon }
+    # - { role: mailserver, tags: mailserver }
+    # - { role: wiki, tags: wiki }
+    # - { role: chatbot, tags: chatbot }
+    # - { role: helpdesk, tags: helpdesk }

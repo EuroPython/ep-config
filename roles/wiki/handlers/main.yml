@@ -1,0 +1,9 @@
+---
+
+- name: restart wiki
+  docker_service:
+    project_src:  "{{ epcon_docker_apps_dir }}"
+    services: wiki
+    restarted: true
+    state: present
+  listen: "restart wiki container"

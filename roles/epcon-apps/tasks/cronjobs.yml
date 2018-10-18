@@ -1,6 +1,6 @@
 ---
 
-- name: Helpdesk: poll incoming emails
+- name: poll incoming emails
   cron:
     name: "poll emails for helpdesk"
     job: "docker exec webarch_helpdesk_1 /usr/src/helpdesk/manage.py get_email 1>/dev/null 2>/dev/null"
