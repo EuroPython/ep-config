@@ -1,0 +1,9 @@
+---
+
+- name: Let's Encrypt updates
+  cron:
+    name: "letsencrypt updates"
+    minute: "15"
+    hour: "22"
+    job: "cd /home/webarch; /usr/local/bin/docker-compose run --rm letsencrypt make cron-update 1>/dev/null 2>/dev/null"
+    state: present

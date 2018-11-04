@@ -1,0 +1,9 @@
+---
+
+- name: Restart nginx once a night to catch up with cert changes
+  cron:
+    name: "nginx restart"
+    minute: "30"
+    hour: "22"
+    job: "cd /home/webarch; /usr/local/bin/docker-compose restart nginx 1>/dev/null 2>/dev/null"
+    state: present

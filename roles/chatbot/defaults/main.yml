@@ -1,0 +1,3 @@
+---
+
+epcon_chatbot_config_dir: "{{ epcon_config_dir }}/errbot"

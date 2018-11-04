@@ -40,11 +40,10 @@
 
 - name: Update pip and setuptools
   pip:
-    name: '{{ item }}'
-    state: latest
-  with_items:
+    name:
     - pip
     - setuptools
+    state: latest
 
 - name: Update bashrc
   lineinfile:

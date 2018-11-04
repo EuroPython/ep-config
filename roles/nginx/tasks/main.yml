@@ -1,20 +1,83 @@
 ---
-- name: Install NGINX
-  package:
-    name: nginx
-    state: present
+
+- name: Create NGINX sites folders
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0755
+    recurse: yes
+  with_items:
+    - "{{ epcon_nginx_config_dir }}/sites-available"
+    - "{{ epcon_nginx_config_dir }}/sites-disabled"
 
 - name: Create NGINX configurations
   template:
     src: "{{ item.template }}"
-    dest: /etc/nginx/sites-available/{{ item.servername }}.conf
+    dest: "{{ epcon_nginx_config_dir }}/sites-available/{{ item.servername }}.conf"
   with_items: "{{ sites }}"
   notify: restart nginx
 
+- name:  Copy static configuration files
+  synchronize:
+    src: "files"
+    dest: "{{ epcon_nginx_config_dir }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0600
+    checksum: yes
+  # notify: restart nginx
+
 - name: Enable NGINX configurations
   file:
-    src: /etc/nginx/sites-available/{{ item.servername }}.conf
-    dest: /etc/nginx/sites-enabled/{{ item.servername }}.conf
+    src: "{{ epcon_nginx_config_dir }}/sites-available/{{ item.servername }}.conf"
+    dest: "{{ epcon_nginx_config_dir }}/sites-enabled/{{ item.servername }}.conf"
     state: link
   with_items: "{{ sites }}"
-  notify: restart nginx
+  # notify: restart nginx
+
+- set_fact:
+    nginx_docker_volumes:
+      "{{ [
+        './config/nginx/conf.d:/etc/nginx/conf.d:ro',
+        './config/nginx/ssl:/etc/nginx/ssl:ro',
+        './config/nginx/.htpasswd:/etc/nginx/.htpasswd:ro',
+        'nginx_log:/var/log/nginx',
+        'nginx_www_root:/usr/share/nginx/html'
+        ] + ( nginx_docker_volumes | default([]) )
+      }}"
+
+- set_fact:
+    nginx_docker_links: "{{ nginx_docker_links | map('regex_replace', '^(.*)$', '- \\1') | list }}"
+    nginx_docker_volumes: "{{ nginx_docker_volumes | map('regex_replace', '^(.*)$', '- \\1') | list }}"
+
+- name: Insert docker-compose service
+  blockinfile:
+    path: "{{ epcon_apps_docker_compose_file }}"
+    marker: "## {mark} nginx service ANSIBLE MANAGED BLOCK"
+    insertafter: "services:"
+    insertbefore: "volumes:"
+    content: |
+      nginx:
+          restart: always
+          image: nginx
+          ports:
+              - "80:80"
+              - "443:443"
+          volumes:
+              {{ nginx_docker_volumes | join('\n') }}
+          links:
+              {{ ( nginx_docker_links | default([]) )  | join('\n') }}
+
+- name: Insert docker-compose volumes
+  blockinfile:
+    path: "{{ epcon_apps_docker_compose_file }}"
+    marker: "## {mark} nginx service ANSIBLE MANAGED BLOCK"
+    insertafter: "volumes:"
+    content: |
+      nginx_log: ~
+      nginx_www_root: ~
+
+- include_tasks: cronjobs.yml
+  tags: cronjobs

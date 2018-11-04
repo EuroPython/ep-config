@@ -1,3 +1,5 @@
+---
+
 sites:
   - servername: www.europython.eu
     template: europython.conf.j2
@@ -61,8 +63,8 @@ sites:
         auth:
           basic: EuroPython 2018 Ticket Search App
           basic_user_file: /etc/nginx/.htpasswd
-    
-    
+
+
   - servername: ep2017.europython.eu
     template: europython.conf.j2
     proxy_pass: http://ep2017
@@ -97,7 +99,7 @@ sites:
           basic: EuroPython 2017 Social Ticket Search App
           basic_user_file: /etc/nginx/.htpasswd
     disable_accounts: True
-    
+
   - servername: ep2016.europython.eu
     template: europython.conf.j2
     proxy_pass: http://ep2016
@@ -115,9 +117,9 @@ sites:
         alias: /usr/src/ep2016/data/media_public
       - name: /media_private
         alias: /usr/src/ep2016/data/media_private
- 
+
     disable_accounts: True
-    
+
   - servername: ep2015.europython.eu
     template: europython.conf.j2
     proxy_pass: http://ep2015
@@ -138,7 +140,7 @@ sites:
       - name: /.well-known
         alias: /usr/src/ep2015/data/.well-known
     disable_accounts: True
-    
+
   - servername: epstage.europython.eu
     template: europython.conf.j2
     proxy_pass: http://epstage
@@ -163,7 +165,7 @@ sites:
         auth:
           basic: EuroPython Stage Social Ticket Search App
           basic_user_file: /etc/nginx/.htpasswd
-    
+
   - servername: dev.europython.eu
     template: europython.conf.j2
     HSTS_support: True
@@ -171,4 +173,3 @@ sites:
     short_links:
       - from: ^/\.well-known/acme-challenge/(.*)$
         to:   http://secure.europython.eu/.well-known/acme-challenge/$1 redirect
-    

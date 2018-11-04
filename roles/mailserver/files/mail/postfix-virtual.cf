@@ -1,0 +1,17 @@
+#
+# EMail aliases
+#
+
+# Standard aliases
+info			info@europython.eu
+webmaster		mal@egenix.com, anthon@mnt.org
+postmaster		mal@egenix.com, anthon@mnt.org
+hostmaster		mal@egenix.com, anthon@mnt.org
+
+# Special aliases
+noreply			devnull
+no-reply		devnull
+
+# Custom ones
+mal			mal@egenix.com
+

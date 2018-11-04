@@ -6,5 +6,10 @@
   roles:
     - { role: common, become: yes, become_method: sudo, tags: common }
     - { role: docker-compose, tags: docker }
-    - { role: epcon-apps, tags: apps }
-    - { role: nginx, become: yes, become_method: sudo, tags: nginx }
+    - { role: docker-base, tags: apps }
+    - { role: epcon, tags: epcon }
+    # - { role: chatbot, tags: chatbot }
+    # - { role: mailserver, tags: mailserver }
+    # - { role: wiki, tags: wiki }
+    # - { role: helpdesk, tags: helpdesk }
+    - { role: nginx, tags: nginx }

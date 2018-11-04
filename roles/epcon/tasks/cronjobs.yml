@@ -1,0 +1,32 @@
+---
+
+- name: Secure the website database and all copies
+  cron:
+    name: "chmod epcon db"
+    minute: "5"
+    job: "find /home -follow -name 'p3*.db' -exec chmod 660 {} ';' > /dev/null 2>&1"
+    state: present
+
+# TODO: this could go away?
+- name: Pull the latest ECB FX rates into ep2018
+  cron:
+    name: "chmod epcon db"
+    minute: "5"
+    hour: "3-6,17-20"
+    job: "docker exec webarch_ep2018_1 python manage.py pull_latest_exrates > /dev/null 2>&1"
+    state: present
+
+# TODO: this could go away or be updated?
+- name: Update the accepted-talks.json file used by the conference info system
+  cron:
+    name: "chmod epcon db"
+    minute: "15"
+    job: "docker exec webarch_ep2018_1 python manage.py talk_abstracts --talk_status accepted ep2018 > /home/webarch/volumes/webarch_ep2018_media_public/_data/conference/TZrs5hIDuH0VPBhx/accepted-talks.json"
+    state: present
+
+- name: Rebuild ticket search app
+  cron:
+    name: "chmod epcon db"
+    minute: "10"
+    job: "docker exec -it webarch_ep2018_1 python manage.py build_ticket_search_app ep2018 > /dev/null 2>&1"
+    state: present

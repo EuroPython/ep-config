@@ -1,0 +1,13 @@
+#
+# Custom Postfix config
+#
+
+# Host name to use in HELOs
+myhostname = mail.europython.io
+
+# Domain
+mydomain = europython.io
+
+# Destinations for which we handle email; do not include $mydomain, since
+# this will be handled as virtual domain
+mydestination = $myhostname cloud1.europython.io localhost.$mydomain localhost

@@ -1,0 +1,303 @@
+version: '2'
+
+services:
+
+    ### Web sites
+
+    helpdesk:
+        restart: always
+        build: dockerfile/helpdesk/
+        expose:
+            - "80"
+        volumes:
+            - helpdesk_src:/usr/src/helpdesk
+            - helpdesk_data:/usr/src/helpdesk/data
+            - helpdesk_static:/usr/src/helpdesk/static
+            - helpdesk_media:/usr/src/helpdesk/media
+        env_file:
+            - env_files/helpdesk_env
+        command: gunicorn ephelpdesk.wsgi:application --bind 0.0.0.0:80
+
+    ep2015:
+        restart: always
+        build: dockerfile/ep2015/
+        expose:
+            - "80"
+        volumes:
+            - ep2015_src:/usr/src/ep2015
+            - ep2015_data_site:/usr/src/ep2015/data/site
+            - ep2015_data_static:/usr/src/ep2015/data/static
+            - ep2015_media_public:/usr/src/ep2015/data/media_public
+            - ep2015_media_private:/usr/src/ep2015/data/media_private
+        env_file:
+            - env_files/ep2015_env
+        command: gunicorn pycon.wsgi:application --bind 0.0.0.0:80 --workers 4
+
+    ep2016:
+        restart: always
+        build: dockerfile/ep2016/
+        expose:
+            - "80"
+        volumes:
+            - ep2016_src:/usr/src/ep2016
+            - ep2016_data_site:/usr/src/ep2016/data/site
+            - ep2016_data_static:/usr/src/ep2016/data/static
+            - ep2016_media_public:/usr/src/ep2016/data/media_public
+            - ep2016_media_private:/usr/src/ep2016/data/media_private
+        env_file:
+            - env_files/ep2016_env
+        command: gunicorn pycon.wsgi:application --bind 0.0.0.0:80 --workers 4
+
+    ep2017:
+        restart: always
+        build: dockerfile/ep2017/
+        expose:
+            - "80"
+        volumes:
+            - ep2017_src:/usr/src/ep2017
+            - ep2017_data_site:/usr/src/ep2017/data/site
+            - ep2017_data_static:/usr/src/ep2017/data/static
+            - ep2017_media_public:/usr/src/ep2017/data/media_public
+            - ep2017_media_private:/usr/src/ep2017/data/media_private
+            - ep2017_ticket_app:/usr/src/ep2017/ep-ticket-search-app
+            - ep2017_social_ticket_app:/usr/src/ep2017/ep-social-ticket-search-app
+        env_file:
+            - env_files/ep2017_env
+        command: gunicorn pycon.wsgi:application --bind 0.0.0.0:80 --workers 4
+
+    ep2018:
+        restart: always
+        build: dockerfile/ep2018/
+        expose:
+            - "80"
+        volumes:
+            - ep2018_src:/usr/src/ep2018
+            - ep2018_data_site:/usr/src/ep2018/data/site
+            - ep2018_data_static:/usr/src/ep2018/data/static
+            - ep2018_media_public:/usr/src/ep2018/data/media_public
+            - ep2018_media_private:/usr/src/ep2018/data/media_private
+            - ep2018_ticket_app:/usr/src/ep2018/ep-ticket-search-app
+            - ep2018_social_ticket_app:/usr/src/ep2018/ep-social-ticket-search-app
+        env_file:
+            - env_files/ep2018_env
+        command: gunicorn pycon.wsgi:application --bind 0.0.0.0:80 --workers 4
+
+    epstage:
+        restart: always
+        build: dockerfile/epstage/
+        expose:
+            - "80"
+        volumes:
+            - epstage_src:/usr/src/epstage
+            - epstage_data_site:/usr/src/epstage/data/site
+            - epstage_data_static:/usr/src/epstage/data/static
+            - epstage_media_public:/usr/src/epstage/data/media_public
+            - epstage_media_private:/usr/src/epstage/data/media_private
+            - epstage_ticket_app:/usr/src/epstage/ep-ticket-search-app
+            - epstage_social_ticket_app:/usr/src/epstage/ep-social-ticket-search-app
+        env_file:
+            - env_files/epstage_env
+        command: gunicorn pycon.wsgi:application --bind 0.0.0.0:80 --workers 4
+
+    wiki:
+        restart: always
+        build: dockerfile/wiki/
+        expose:
+            - "80"
+        volumes:
+            - wiki_src:/usr/src/wiki
+            - ./config/wiki/conf:/usr/src/wiki/conf:ro
+            - wiki_config:/usr/src/wiki/trac/europython/conf
+            - wiki_data:/usr/src/wiki/trac/europython/db
+            - wiki_htdocs:/usr/src/wiki/trac/europython/htdocs
+            - wiki_files:/usr/src/wiki/trac/europython/files
+        env_file:
+            - env_files/wiki_env
+        command:
+            bin/tracd
+                --port=80
+                --hostname=0.0.0.0
+                --basic-auth=europython,/usr/src/wiki/conf/user.auth,"EuroPython Conference"
+                --pidfile=/usr/src/wiki/var/tracd.pid
+                /usr/src/wiki/trac/europython
+
+    ### Web server
+
+    nginx:
+        restart: always
+        image: nginx
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./config/nginx/conf.d:/etc/nginx/conf.d:ro
+            - ./config/nginx/ssl:/etc/nginx/ssl:ro
+            - ./config/nginx/.htpasswd:/etc/nginx/.htpasswd:ro
+            - nginx_log:/var/log/nginx
+            - nginx_www_root:/usr/share/nginx/html
+            - letsencrypt_challenge:/home/letsencrypt/acme-challenge
+            - letsencrypt_certs:/home/letsencrypt/certs
+            - ep2015_media_public:/usr/src/ep2015/data/media_public
+            - ep2015_media_private:/usr/src/ep2015/data/media_private
+            - ep2015_data_static:/usr/src/ep2015/data/static
+            - ep2016_media_public:/usr/src/ep2016/data/media_public
+            - ep2016_media_private:/usr/src/ep2016/data/media_private
+            - ep2016_data_static:/usr/src/ep2016/data/static
+            - ep2017_media_public:/usr/src/ep2017/data/media_public
+            - ep2017_media_private:/usr/src/ep2017/data/media_private
+            - ep2017_data_static:/usr/src/ep2017/data/static
+            - ep2017_ticket_app:/usr/src/ep2017/ep-ticket-search-app
+            - ep2017_social_ticket_app:/usr/src/ep2017/ep-social-ticket-search-app
+            - ep2018_media_public:/usr/src/ep2018/data/media_public
+            - ep2018_media_private:/usr/src/ep2018/data/media_private
+            - ep2018_data_static:/usr/src/ep2018/data/static
+            - ep2018_ticket_app:/usr/src/ep2018/ep-ticket-search-app
+            - ep2018_social_ticket_app:/usr/src/ep2018/ep-social-ticket-search-app
+            - epstage_media_public:/usr/src/epstage/data/media_public
+            - epstage_media_private:/usr/src/epstage/data/media_private
+            - epstage_data_static:/usr/src/epstage/data/static
+            - epstage_ticket_app:/usr/src/epstage/ep-ticket-search-app
+            - epstage_social_ticket_app:/usr/src/epstage/ep-social-ticket-search-app
+            - wiki_htdocs:/usr/src/wiki/htdocs
+            - helpdesk_media:/usr/src/helpdesk/media
+            - helpdesk_static:/usr/src/helpdesk/static
+        links:
+            - ep2015
+            - ep2016
+            - ep2017
+            - ep2018
+            - epstage
+            - wiki
+            - helpdesk
+
+    ### Errbot
+
+    errbot:
+        restart: always
+        build: dockerfile/errbot/
+        volumes:
+            - errbot_src:/usr/src/errbot/
+            - errbot_data:/usr/src/errbot/data
+            - ./config/errbot:/etc/errbot/:ro
+        env_file:
+            - env_files/errbot_env
+        command: errbot
+
+    ### Let's Encrypt
+
+    letsencrypt:
+        build: dockerfile/letsencrypt/
+        volumes:
+            - letsencrypt_data:/home/letsencrypt
+            - letsencrypt_challenge:/home/letsencrypt/acme-challenge
+            - letsencrypt_certs:/home/letsencrypt/certs
+            - ./config/letsencrypt:/etc/letsencrypt:ro
+        env_file:
+            - env_files/letsencrypt
+
+    ###
+
+    mail:
+        restart: always
+        image: tvial/docker-mailserver:2.1
+        hostname: mail
+        domainname: europython.io
+        ports:
+            - "25:25"
+            - "143:143"
+            - "587:587"
+            - "993:993"
+        volumes:
+            - mail_data:/var/mail
+            - mail_state:/var/mail-state
+            - ./config/mail:/tmp/docker-mailserver
+            - /var/lib/docker/volumes/webarch_letsencrypt_certs/_data:/tmp/ssl:ro
+            - /etc/localtime:/etc/localtime:ro
+        env_file:
+            - env_files/mail_env
+        cap_add:
+            - NET_ADMIN
+
+volumes:
+
+    ### Let's Encrypt
+
+    letsencrypt_challenge: ~
+    letsencrypt_certs: ~
+    letsencrypt_data: ~
+
+    ### nginx
+
+    nginx_log: ~
+    nginx_www_root: ~
+
+    ### Helpdesk
+
+    helpdesk_src: ~
+    helpdesk_data: ~
+    helpdesk_static: ~
+    helpdesk_media: ~
+
+    ### EuroPython 2015
+
+    ep2015_src: ~
+    ep2015_data_site: ~
+    ep2015_data_static: ~
+    ep2015_media_public: ~
+    ep2015_media_private: ~
+
+    ### EuroPython 2016
+
+    ep2016_src: ~
+    ep2016_data_site: ~
+    ep2016_data_static: ~
+    ep2016_media_public: ~
+    ep2016_media_private: ~
+
+    ### EuroPython 2017
+
+    ep2017_src: ~
+    ep2017_data_site: ~
+    ep2017_data_static: ~
+    ep2017_media_public: ~
+    ep2017_media_private: ~
+    ep2017_ticket_app: ~
+    ep2017_social_ticket_app: ~
+
+    ### EuroPython 2018
+
+    ep2018_src: ~
+    ep2018_data_site: ~
+    ep2018_data_static: ~
+    ep2018_media_public: ~
+    ep2018_media_private: ~
+    ep2018_ticket_app: ~
+    ep2018_social_ticket_app: ~
+
+    ### EuroPython Stage (staging site)
+
+    epstage_src: ~
+    epstage_data_site: ~
+    epstage_data_static: ~
+    epstage_media_public: ~
+    epstage_media_private: ~
+    epstage_ticket_app: ~
+    epstage_social_ticket_app: ~
+
+    ### EuroPython Wiki
+
+    wiki_src: ~
+    wiki_config: ~
+    wiki_data: ~
+    wiki_files: ~
+    wiki_htdocs: ~
+
+    ### Errbot
+
+    errbot_src: ~
+    errbot_data: ~
+
+    ### Mail server
+
+    mail_data: ~
+    mail_state: ~

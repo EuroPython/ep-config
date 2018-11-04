@@ -34,7 +34,6 @@ server {
         {% endif %}
 	server_tokens off;
 
-        
         {% if item.client_max_body_size is defined and item.client_max_body_size %}
         client_max_body_size {{ item.client_max_body_size }};
         {% endif %}

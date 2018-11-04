@@ -1,0 +1,191 @@
+---
+
+- name:  epcon | Create container environment files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ containers_env_files_dir }}/{{ item.path | replace('.j2', '' )}}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0600
+  with_filetree: 'templates'
+  when: item.state == 'file'
+  # notify:
+  #    - restart docker_compose
+
+- set_fact:
+    nginx_docker_volumes: >-
+      {{ [
+            'ep2015_media_public:/usr/src/ep2015/data/media_public',
+            'ep2015_media_private:/usr/src/ep2015/data/media_private',
+            'ep2015_data_static:/usr/src/ep2015/data/static',
+            'ep2016_media_public:/usr/src/ep2016/data/media_public',
+            'ep2016_media_private:/usr/src/ep2016/data/media_private',
+            'ep2016_data_static:/usr/src/ep2016/data/static',
+            'ep2017_media_public:/usr/src/ep2017/data/media_public',
+            'ep2017_media_private:/usr/src/ep2017/data/media_private',
+            'ep2017_data_static:/usr/src/ep2017/data/static',
+            'ep2017_ticket_app:/usr/src/ep2017/ep-ticket-search-app',
+            'ep2017_social_ticket_app:/usr/src/ep2017/ep-social-ticket-search-app',
+            'ep2018_media_public:/usr/src/ep2018/data/media_public',
+            'ep2018_media_private:/usr/src/ep2018/data/media_private',
+            'ep2018_data_static:/usr/src/ep2018/data/static',
+            'ep2018_ticket_app:/usr/src/ep2018/ep-ticket-search-app',
+            'ep2018_social_ticket_app:/usr/src/ep2018/ep-social-ticket-search-app',
+            'epstage_media_public:/usr/src/epstage/data/media_public',
+            'epstage_media_private:/usr/src/epstage/data/media_private',
+            'epstage_data_static:/usr/src/epstage/data/static',
+            'epstage_ticket_app:/usr/src/epstage/ep-ticket-search-app',
+            'epstage_social_ticket_app:/usr/src/epstage/ep-social-ticket-search-app'
+        ] + ( nginx_docker_volumes | default([]) )
+      }}
+    nginx_docker_links: >-
+      {{ [
+            'ep2015',
+            'ep2016',
+            'ep2017',
+            'ep2018',
+            'epstage',
+        ] + ( nginx_docker_links | default([]) )
+      }}
+
+- set_fact:
+    nginx_docker_links: "{{ nginx_docker_links | map('regex_replace', '^(.*)$', '- \\1') | list }}"
+    nginx_docker_volumes: "{{ nginx_docker_volumes | map('regex_replace', '^(.*)$', '- \\1') | list }}"
+
+- name: epcon | Insert docker-compose services
+  blockinfile:
+    path: "{{ epcon_apps_docker_compose_file }}"
+    marker: "## {mark} epcon service ANSIBLE MANAGED BLOCK"
+    insertafter: "services:"
+    insertbefore: "volumes:"
+    content: |
+        ep2015:
+            restart: always
+            build: dockerfile/ep2015/
+            expose:
+                - "80"
+            volumes:
+                - ep2015_src:/usr/src/ep2015
+                - ep2015_data_site:/usr/src/ep2015/data/site
+                - ep2015_data_static:/usr/src/ep2015/data/static
+                - ep2015_media_public:/usr/src/ep2015/data/media_public
+                - ep2015_media_private:/usr/src/ep2015/data/media_private
+            env_file:
+                - env_files/ep2015_env
+            command: gunicorn pycon.wsgi:application --bind 0.0.0.0:80 --workers 4
+
+        ep2016:
+            restart: always
+            build: dockerfile/ep2016/
+            expose:
+                - "80"
+            volumes:
+                - ep2016_src:/usr/src/ep2016
+                - ep2016_data_site:/usr/src/ep2016/data/site
+                - ep2016_data_static:/usr/src/ep2016/data/static
+                - ep2016_media_public:/usr/src/ep2016/data/media_public
+                - ep2016_media_private:/usr/src/ep2016/data/media_private
+            env_file:
+                - env_files/ep2016_env
+            command: gunicorn pycon.wsgi:application --bind 0.0.0.0:80 --workers 4
+
+        ep2017:
+            restart: always
+            build: dockerfile/ep2017/
+            expose:
+                - "80"
+            volumes:
+                - ep2017_src:/usr/src/ep2017
+                - ep2017_data_site:/usr/src/ep2017/data/site
+                - ep2017_data_static:/usr/src/ep2017/data/static
+                - ep2017_media_public:/usr/src/ep2017/data/media_public
+                - ep2017_media_private:/usr/src/ep2017/data/media_private
+                - ep2017_ticket_app:/usr/src/ep2017/ep-ticket-search-app
+                - ep2017_social_ticket_app:/usr/src/ep2017/ep-social-ticket-search-app
+            env_file:
+                - env_files/ep2017_env
+            command: gunicorn pycon.wsgi:application --bind 0.0.0.0:80 --workers 4
+
+        ep2018:
+            restart: always
+            build: dockerfile/ep2018/
+            expose:
+                - "80"
+            volumes:
+                - ep2018_src:/usr/src/ep2018
+                - ep2018_data_site:/usr/src/ep2018/data/site
+                - ep2018_data_static:/usr/src/ep2018/data/static
+                - ep2018_media_public:/usr/src/ep2018/data/media_public
+                - ep2018_media_private:/usr/src/ep2018/data/media_private
+                - ep2018_ticket_app:/usr/src/ep2018/ep-ticket-search-app
+                - ep2018_social_ticket_app:/usr/src/ep2018/ep-social-ticket-search-app
+            env_file:
+                - env_files/ep2018_env
+            command: gunicorn pycon.wsgi:application --bind 0.0.0.0:80 --workers 4
+
+        epstage:
+            restart: always
+            build: dockerfile/epstage/
+            expose:
+                - "80"
+            volumes:
+                - epstage_src:/usr/src/epstage
+                - epstage_data_site:/usr/src/epstage/data/site
+                - epstage_data_static:/usr/src/epstage/data/static
+                - epstage_media_public:/usr/src/epstage/data/media_public
+                - epstage_media_private:/usr/src/epstage/data/media_private
+                - epstage_ticket_app:/usr/src/epstage/ep-ticket-search-app
+                - epstage_social_ticket_app:/usr/src/epstage/ep-social-ticket-search-app
+            env_file:
+                - env_files/epstage_env
+            command: gunicorn pycon.wsgi:application --bind 0.0.0.0:80 --workers 4
+
+- name: epcon | Insert docker-compose volumes
+  blockinfile:
+    path: "{{ epcon_apps_docker_compose_file }}"
+    marker: "## {mark} epcon service ANSIBLE MANAGED BLOCK"
+    insertafter: "volumes:"
+    content: |
+        ### EuroPython 2015
+        ep2015_src: ~
+        ep2015_data_site: ~
+        ep2015_data_static: ~
+        ep2015_media_public: ~
+        ep2015_media_private: ~
+
+        ### EuroPython 2016
+        ep2016_src: ~
+        ep2016_data_site: ~
+        ep2016_data_static: ~
+        ep2016_media_public: ~
+        ep2016_media_private: ~
+
+        ### EuroPython 2017
+        ep2017_src: ~
+        ep2017_data_site: ~
+        ep2017_data_static: ~
+        ep2017_media_public: ~
+        ep2017_media_private: ~
+        ep2017_ticket_app: ~
+        ep2017_social_ticket_app: ~
+
+        ### EuroPython 2018
+        ep2018_src: ~
+        ep2018_data_site: ~
+        ep2018_data_static: ~
+        ep2018_media_public: ~
+        ep2018_media_private: ~
+        ep2018_ticket_app: ~
+        ep2018_social_ticket_app: ~
+
+        ### EuroPython Stage (staging site)
+        epstage_src: ~
+        epstage_data_site: ~
+        epstage_data_static: ~
+        epstage_media_public: ~
+        epstage_media_private: ~
+        epstage_ticket_app: ~
+        epstage_social_ticket_app: ~
+
+- include_tasks: cronjobs.yml
+  tags: cronjobs

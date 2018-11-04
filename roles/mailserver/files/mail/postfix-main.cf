@@ -1,0 +1,3 @@
+myhostname = mail.europython.io
+mydomain = europython.io
+mydestination = $myhostname cloud1.europython.io localhost.$mydomain localhost

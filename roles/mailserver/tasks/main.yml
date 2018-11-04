@@ -1,0 +1,35 @@
+---
+
+- name: Create configuration folders
+  file:
+    path: "{{ epcon_mailserver_config_dir }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0755
+    recurse: yes
+
+- name:  Create configuration files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ epcon_chatbot_config_dir }}/{{ item.path | replace('.j2', '' )}}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0600
+  with_filetree: 'templates/config/errbot'
+  when: item.state == 'file'
+  # notify:
+  #    - restart docker_compose
+
+- name: Copy the helper scripts
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ epcon_scripts_dir }}/{{ item.path | replace('.j2', '' )}}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0600
+  with_filetree: 'templates/bin'
+  when: item.state == 'file'
+
+- include_tasks: cronjobs.yml
+  tags: cronjobs
