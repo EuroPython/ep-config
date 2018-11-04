@@ -29,6 +29,14 @@
     group: "{{ group }}"
     mode: 0600
 
+- name: Copy the docker-compose file
+  template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ epcon_apps_docker_compose_file }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0600
+
 # - include_tasks: venv_files.yml
 #   tags: venv_files
 
